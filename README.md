@@ -48,6 +48,15 @@
   </ul>
 </p>
 
+<h3>How to use ...</h3>
+<p><i>Just download the *.PY file, install modules (see above) if needed and copy any maillpass combolist to the same directory. Then type:</i></p>
+
+```
+python3 MailRip\ V0.3\ 2020-10-18.py
+```
+
+<p><i>... and follow the text on your screen. Of course, you may rename the file for easier usage.</i></p>
+
 <h4>Support Mail.Rip v1</h4>
 <p><i>If you wand to support this project, consider a donation in Bitcoin (BTC). Every donation is appreciated and helps with motivation for working on this tools. Special donators may be named on starting sceen of Mail.Rip v1! In this case, contact me before donating, please!</i></p>
 <p><b>Donation Wallet:</b>   1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf</p>
