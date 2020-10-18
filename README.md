@@ -17,7 +17,7 @@
     <li>macOS.</li>
   </ul>
 </p>
-<p><b>Required modules are: ctypes, os, smtplib, socket, sys, ssl, threading and time.</b></p>
+<p><b>Required modules are: ctypes, os, smtplib, socket, sys, ssl, threading, time and colorama.</b></p>
 <p><i>Moreover, PyInstaller can be used for creating a *.EXE. Tested on Windows 10.</i></p>
 
 <h3>Features</h3>
