@@ -52,7 +52,7 @@
 <p><i>Just download the *.PY file, install modules (see above) if needed and copy any maillpass combolist to the same directory. Then type:</i></p>
 
 ```
-python3 MailRip\ V0.3\ 2020-10-18.py
+python3 mailripV1.py
 ```
 
 <p><i>... and follow the text on your screen. Of course, you may rename the file for easier usage.</i></p>
