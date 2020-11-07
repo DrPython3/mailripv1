@@ -1,0 +1,68 @@
+{
+  "hosters":
+
+  {
+    "gmail.com":"smtp.gmail.com",
+    "outlook.com":"smtp.live.com",
+    "office.com":"smtp.office365.com",
+    "yahoo.com":"smtp.mail.yahoo.com",
+    "yahoo.co.uk":"smtp.mail.yahoo.co.uk",
+    "yahoo.de":"smtp.mail.yahoo.com",
+    "aol.com":"smtp.aol.com",
+    "att.com":"smtp.att.yahoo.com",
+    "ntlworld.com":"smtp.ntlworld.com",
+    "btconnect.com":"mail.btconnect.com",
+    "orange.co.uk":"smtp.orange.co.uk",
+    "wanadoo.co.uk":"smtp.wanadoo.co.uk",
+    "o2online.de":"mail.o2online.de",
+    "t-online.de":"securesmtp.t-online.de",
+    "1and1.com":"smtp.1and1.com",
+    "1und1.de":"smtp.1und1.de",
+    "comcast.net":"smtp.comcast.net",
+    "verizon.net":"outgoing.verizon.net",
+    "mail.com":"smtp.mail.com",
+    "gmx.com":"smtp.gmx.com",
+    "gmx.de":"smtp.gmx.de",
+    "gmx.net":"smtp.gmx.net"
+  },
+
+
+  "subh":[
+    "",
+    "mail.",
+    "webmail.",
+    "smtp.",
+    "mail2.",
+    "mx.",
+    "email.",
+    "mail1.",
+    "owa.",
+    "mx1.",
+    "exchange.",
+    "smtpauths.",
+    "smtpauth.",
+    "smtp.mail.",
+    "smtp-mail.",
+    "securesmtp."
+  ],
+
+  "subp":[
+    "587",
+    "465",
+    "25"
+  ],
+
+
+  "blacklisted":[
+    "gmail.com",
+    "googlemail.com",
+    "yahoo.com",
+    "hotmail.com",
+    "protonmail.com",
+    "yandex.ru"
+  ]
+
+
+
+
+}
