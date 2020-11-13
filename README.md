@@ -17,7 +17,20 @@
     <li>macOS.</li>
   </ul>
 </p>
-<p><b>Required modules are: ctypes, os, smtplib, socket, sys, ssl, threading, time and colorama.</b></p>
+<p><b>Required modules are:</b></p>
+<p>
+  <ul>
+    <li>ctypes,</li>
+    <li>os,</li>
+    <li>smtplib,</li>
+    <li>socket,</li>
+    <li>sys,</li>
+    <li>ssl,</li>
+    <li>threading,</li>
+    <li>time and</li>
+    <li>colorama.</li>
+  </ul>
+</p>
 <p><i>Moreover, PyInstaller can be used for creating a *.EXE. Tested on Windows 10.</i></p>
 
 <h3>Features</h3>
@@ -38,10 +51,10 @@
 <p><i>There is still some work left to be done. Planned improvements are:</i></p>
 <p>
   <ul>
-    <li>Add SMTP ports to connection,</li>
-    <li>include improved SSL support for better results,</li>
+    <li><del>Add SMTP ports to connection,</del> - <b>done, 2020-11-13</b></li>
+    <li><del>include improved SSL support for better results,</del> - <b>done, 2020-11-13</b></li>
     <li><b>add mail send to checking process (validation of cracked SMTP, inbox check)</b></li>
-    <li><b>improve subdomain checking for unknown mailhosts,</b></li>
+    <li><del><b>improve subdomain checking for unknown mailhosts,</b></del> - <b>done, 2020-11-13</b></li>
     <li>speed up checking process / improve performance,</li>
     <li><b>add proxy support (SOCKS4 and SOCKS5, especially rotating proxys)</b> and</li>
     <li>some other stuff ...</li>
@@ -62,4 +75,5 @@ python3 mailripV1.py
 <p><b>Donation Wallet:</b>   1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf</p>
 
 <h5>Changelog</h5>
-<p><i>Last changes: 2020-10-18 -- releasing code version 0.3, creating repo, writing readme etc.</i></p>
+<p><i>2020-10-18 -- releasing code version 0.3, creating repo, writing readme etc.</i></p>
+<p><i>Last changes: 2020-11-13 -- releasing code version 0.5, many improvements (see comment on changes of *.py-file.</i></p>
