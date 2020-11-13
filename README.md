@@ -75,5 +75,5 @@ python3 mailripV1.py
 <p><b>Donation Wallet:</b>   1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf</p>
 
 <h5>Changelog</h5>
-<p><i>2020-10-18 -- releasing code version 0.3, creating repo, writing readme etc.</i></p>
-<p><i>Last changes: 2020-11-13 -- releasing code version 0.5, many improvements (see comment on changes of *.py-file.</i></p>
+<p><i>2020-10-18 -- releasing code version 0.3, creating repo, writing readme etc.</i><br>
+<i>Last changes: 2020-11-13 -- releasing code version 0.5, many improvements (see comment on changes of *.py-file).</i></p>
