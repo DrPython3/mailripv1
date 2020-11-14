@@ -86,6 +86,6 @@ python3 mailripV1.py
 
 <h4>Changelog</h4>
 <p>
-  <i>2020-10-18:releasing code version 0.3, creating repo, writing readme etc.</i><br>
-  <i>2020-11-13:releasing code version 0.5, many improvements (see comment on changes of *.py-file).</i>
+  <i>2020-10-18: releasing code version 0.3, creating repo, writing readme etc.</i><br>
+  <i>2020-11-13: releasing code version 0.5, many improvements (see comment on changes of *.py-file).</i>
 </p>
