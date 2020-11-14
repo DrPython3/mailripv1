@@ -9,7 +9,7 @@
 
 <h2>Overview</h2>
 <p>
-  <i>Mail.Rip v1 is written in Python 3.8 and still being improved though it is already functional and delivering results very fast.<br>
+  <i>Mail.Rip v1 is written in Python 3.8 and still being improved though it is already functional, delivering results very fast.<br>
     The goal of this project is to offer a tool which is easy to use, providing stable results over time.<br>
     There is still work to be done, but Mail.Rip v1 is worth testing it.</i>
 </p>
