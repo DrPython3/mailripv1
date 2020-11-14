@@ -20,7 +20,7 @@
     <li>macOS.</li>
   </ul>
 </p>
-<p><b>Required modules are:</b></p>
+<p><b>Used modules are:</b></p>
 <p>
   <ul>
     <li>ctypes,</li>
@@ -31,8 +31,9 @@
     <li>ssl,</li>
     <li>threading,</li>
     <li>time,</li>
-    <li>colorama and</li>
-    <li>JSON.</li>
+    <li>colorama,</li>
+    <li>json and</li>
+    <li>re.</li>
   </ul>
 </p>
 <p>
