@@ -1,5 +1,5 @@
 # Mail.Rip v1
-<p><i>Basic SMTP checker / SMTP cracker for testing mailpass combolists.</i></p>
+<p><i>Basic SMTP checker / SMTP cracker including an inbox check for testing mailpass combolists.</i></p>
 
 <h2>Legal Notices</h2>
 <p>
