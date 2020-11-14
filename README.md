@@ -32,8 +32,9 @@
     <li>threading,</li>
     <li>time,</li>
     <li>colorama,</li>
-    <li>json and</li>
-    <li>re.</li>
+    <li>json,</li>
+    <li>re and</li>
+    <li>SMTPEmail.</li>
   </ul>
 </p>
 <p>
