@@ -11,13 +11,17 @@
 
 <h2>Overview</h2>
 <p>
-  <i>Mail.Rip v1 is written in Python 3.8 and still being improved though it is already functional, delivering results very fast.<br>
-    The goal of this project is to offer a tool which is easy to use, providing stable results over time.<br>
+  <i>Mail.Rip v1 is written in Python 3.8 and still being improved though it is already functional,<br>
+    delivering results very fast. The goal of this project is to offer a tool which is easy to use,<br>
+    providing stable results over time.<br><br>
     There is still work to be done, but Mail.Rip v1 is worth testing it.</i>
 </p>
 
 <h3>Requirements</h3>
-<p><i>For runninng Mail.Rip v1 you need <b>Python 3.8+</b> to be installed on your system. It has been tested on:</i></p>
+<p>
+  <i>For runninng Mail.Rip v1 you need <b>Python 3.8+</b> to be installed on your system.<br>
+  It has been tested on:</i>
+</p>
 <p>
   <ul>
     <li>Windows 10,</li>
@@ -49,7 +53,10 @@
 </p>
 
 <h3>Features</h3>
-<p><i>Mail.Rip is a basic SMTP checker / SMTP cracker. There are only a few, but essential "features":</i></p>
+<p>
+  <i>Mail.Rip is a basic SMTP checker / SMTP cracker. There are the following essential<br>
+  "features":</i>
+</p>
 <p>
   <ul>
     <li>Tests mailpass combolists for working SMTP logins,</li>
@@ -83,8 +90,8 @@
 
 <h3>How to use ...</h3>
 <p>
-  <i>Just download the *.PY file, install modules (see above) if needed and copy any maillpass combolist to the same directory.<br>
-    Then type:</i>
+  <i>Just download the *.PY file, install modules (see above) if needed and copy any maillpass<br>
+    combolist to the same directory. Then type:</i>
 </p>
 
 ```
