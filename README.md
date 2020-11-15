@@ -1,5 +1,7 @@
 # Mail.Rip v1
-<p><i>A SMTP checker / SMTP cracker including an inbox check for testing mailpass combolists.</i></p>
+<p>
+  <i>A SMTP checker / SMTP cracker including a mailsending check for testing mailpass combolists.</i>
+</p>
 
 <h2>Legal Notices</h2>
 <p>
@@ -37,7 +39,7 @@
     <li>colorama,</li>
     <li>json,</li>
     <li>re,</li>
-    <li>SMTPEmail and</li>
+    <li>email.message and</li>
     <li>uuid.</li>
   </ul>
 </p>
@@ -53,8 +55,9 @@
     <li>Tests mailpass combolists for working SMTP logins,</li>
     <li>hostdata for common SMTP providers is included,</li>
     <li>checks for most common SMTP (sub)domains if no host is found in included lists,</li>
+    <li>tries to verify working SMTP logins by sending an e-mail to the user's address,</li>
     <li>supports multi-threading,</li>
-    <li>stats are shown in window title (if run on Windows),</li>
+    <li>stats are shown in window title,</li>
     <li>option to skip e-mail providers like Google, hotmail.com etc. and</li>
     <li>results are saved to textfiles for further investigation.</li>
   </ul>
@@ -68,11 +71,12 @@
   <ul>
     <li><del>Add SMTP ports to connection,</del> - <b>done, 2020-11-13</b></li>
     <li><del>improve SSL support for better results,</del> - <b>done, 2020-11-13</b></li>
-    <li><b>add msg send to checking process (validation of cracked SMTP, inbox check)</b></li>
+    <li><del>add msg send to checking process (validation of cracked SMTP, inbox check)</del> - <b>done, 2020-11-15</b></li>
     <li><del><b>improve subdomain checking for unknown mailhosts,</b></del> - <b>done, 2020-11-13</b></li>
-    <li>speed up checking process / improve performance,</li>
-    <li>add a config.json to provide easier access to dictionaries and lists used by the checker<br>
-      (request by <a href="https://github.com/Trustdee" target=_blank>Trustdee</a>) and</li>
+    <li><del>add a config.json to provide easier access to dictionaries and lists used by the checker</del> - <b>done, 2020-11-15</b><br>
+      (request by <a href="https://github.com/Trustdee" target=_blank>Trustdee</a>),</li>
+    <li><b>add support for SOCKS-proxys,</b></li>
+    <li>speed up checking process / improve performance and</li>
     <li>some other stuff ...</li>
   </ul>
 </p>
@@ -105,5 +109,7 @@ python3 mailripV1.py
 <h4>Changelog</h4>
 <p>
   <i>2020-10-18: releasing code version 0.3, creating repo, writing readme etc.</i><br>
-  <i>2020-11-13: releasing code version 0.5, many improvements (see comment on changes of *.py-file).</i>
+  <i>2020-11-13: releasing code version 0.5, many improvements (see comment on commit of *.py-file).</i><br>
+  <i>2020-11-15: releasing code version 0.9, big update (see comment on commit of *.py-file).</i><br>
+  <i><b>Next release will be the "real" v1.0!</b></i>
 </p>
