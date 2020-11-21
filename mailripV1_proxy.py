@@ -130,6 +130,7 @@ def blackcheck(search):
 #getproxdata == scrapes SOCKS4 proxies from Proxyscrape.com:
 def getproxdata():
     print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies - this may take a while ...\n')
+    #Scraping source:
     psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks5&timeout=2000'
     http = urllib3.PoolManager(ca_certs=certifi.where())
     proxydata = http.request('GET', psource)
