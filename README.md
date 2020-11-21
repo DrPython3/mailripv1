@@ -45,8 +45,9 @@
     <li>re,</li>
     <li>email.mime,</li>
     <li>uuid,</li>
-    <li>socks and</li>
-    <li>random.</li>
+    <li>socks,</li>
+    <li>random and</li>
+    <li>urllib3.</li>
   </ul>
 </p>
 <p>
@@ -67,8 +68,9 @@
     <li>tries to verify working SMTP logins by sending an e-mail to the user's address,</li>
     <li>supports multi-threading,</li>
     <li>stats are shown in window title,</li>
-    <li>option to skip e-mail providers like Google, hotmail.com etc. and</li>
-    <li>results are saved to textfiles for further investigation.</li>
+    <li>option to skip e-mail providers like Google, hotmail.com etc.,</li>
+    <li>results are saved to textfiles for further investigation and</li>
+    <li>SOCKS-support with auto-scraping using Proxyscrape.com.</li>
   </ul>
 </p>
 
@@ -84,14 +86,14 @@
     <li><del><b>improve subdomain checking for unknown mailhosts,</b></del> - <b>done, 2020-11-13</b></li>
     <li><del>add a config.json to provide easier access to dictionaries and lists used by the checker</del> - <b>done, 2020-11-15</b><br>
       (request by <a href="https://github.com/Trustdee" target=_blank>Trustdee</a>),</li>
-    <li><b>add support for SOCKS-proxys,</b></li>
+    <li><del><b>add support for SOCKS-proxys,</b></del> - <b>done, 2020-11-21</b></li>
     <li>speed up checking process / improve performance and</li>
     <li>some other stuff ...</li>
   </ul>
 </p>
 <p>
   <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and<br>
-    "proxy" version (in development, released in v0.92</i>
+    "proxy" version (in development, released in v1.00!</i>
 </p>
 
 <h3>How to use ...</h3>
@@ -125,5 +127,5 @@ python3 mailripV1.py
   <i>2020-11-13: releasing code version 0.5, many improvements (see comment on commit of *.py-file).</i><br>
   <i>2020-11-15: releasing code version 0.9, big update (see comment on commit of *.py-file).</i><br>
   <i>2020-11-20: releasing code version 0.92, see commit comment for further information.</i><br>
-  <i><b>Next release of "proxy" version will be the "real" v1.0!</b></i>
+  <i><b>2020-11-21: releasing code version 1.00 - now available for "proxyless" and "proxy" version!</b></i>
 </p>
