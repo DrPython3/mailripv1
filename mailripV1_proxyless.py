@@ -11,7 +11,6 @@ import ctypes, os, smtplib, socket, sys, ssl, threading, time, json, re, uuid, e
 from time import sleep
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from random import randint
 import colorama
 from colorama import *
 init()
