@@ -114,12 +114,6 @@ def skips(skiptext):
         skippedfile.write(str(skiptext) + '\n')
         skippedfile.close()
 
-#writeprox == saves scraped proxy data to a txt file:
-def writeprox(proxtext):
-    with open('proxydata.txt', 'a') as proxdatfile:
-        proxdatfile.write(str(proxtext) + '\n')
-        proxdatfile.close()
-
 #blackcheck == searches for smtp domain in blacklist:
 def blackcheck(search):
     try:
