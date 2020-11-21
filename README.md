@@ -47,9 +47,8 @@
     <li>uuid,</li>
     <li>socks,</li>
     <li>random,</li>
-    <li>urllib3,</li>
-    <li>certifi and</li>
-    <li>linecache.</li>
+    <li>urllib3 and</li>
+    <li>certifi.</li>
   </ul>
 </p>
 <p>
