@@ -8,7 +8,7 @@
 #((--> *P*A*C*K*A*G*E*S***N*E*E*D*E*D* <--))
 
 import ctypes, os, smtplib, socket, sys, ssl, threading, time, json, re, uuid, email.mime, socks, random, urllib3
-import certifi, linecache
+import certifi
 from time import sleep
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -116,12 +116,6 @@ def skips(skiptext):
     with open('skipped_combos.txt', 'a') as skippedfile:
         skippedfile.write(str(skiptext) + '\n')
         skippedfile.close()
-
-#writeprox == saves scraped proxy data to a txt file:
-def writeprox(proxtext):
-    with open('proxydata.txt', 'a') as proxdatfile:
-        proxdatfile.write(str(proxtext) + '\n')
-        proxdatfile.close()
 
 #blackcheck == searches for smtp domain in blacklist:
 def blackcheck(search):
