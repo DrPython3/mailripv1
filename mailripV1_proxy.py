@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 #encoding: utf-8
 #name: Mail.Ripper v1 (proxy version)
-#description: smtp checker / smtp cracker including mailsending check for hits
+#description: smtp checker / smtp cracker including mailsending check for hits and SOCKS5 support
 #version: 1.05, 2020-11-21
 #author: DrPython3
 #----------------------------------------------------------------------------------------------------------------------
