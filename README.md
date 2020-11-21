@@ -46,8 +46,10 @@
     <li>email.mime,</li>
     <li>uuid,</li>
     <li>socks,</li>
-    <li>random and</li>
-    <li>urllib3.</li>
+    <li>random,</li>
+    <li>urllib3,</li>
+    <li>certifi and</li>
+    <li>linecache.</li>
   </ul>
 </p>
 <p>
