@@ -43,8 +43,10 @@
     <li>colorama,</li>
     <li>json,</li>
     <li>re,</li>
-    <li>email.message and</li>
-    <li>uuid.</li>
+    <li>email.mime,</li>
+    <li>uuid,</li>
+    <li>socks and</li>
+    <li>random.</li>
   </ul>
 </p>
 <p>
@@ -87,6 +89,10 @@
     <li>some other stuff ...</li>
   </ul>
 </p>
+<p>
+  <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and<br>
+    "proxy" version (in development, released in v0.92</i>
+</p>
 
 <h3>How to use ...</h3>
 <p>
@@ -118,5 +124,6 @@ python3 mailripV1.py
   <i>2020-10-18: releasing code version 0.3, creating repo, writing readme etc.</i><br>
   <i>2020-11-13: releasing code version 0.5, many improvements (see comment on commit of *.py-file).</i><br>
   <i>2020-11-15: releasing code version 0.9, big update (see comment on commit of *.py-file).</i><br>
-  <i><b>Next release will be the "real" v1.0!</b></i>
+  <i>2020-11-20: releasing code version 0.92, see commit comment for further information.</i><br>
+  <i><b>Next release of "proxy" version will be the "real" v1.0!</b></i>
 </p>
