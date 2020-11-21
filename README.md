@@ -53,7 +53,8 @@
 </p>
 <p>
   Moreover, <i>PyInstaller</i> can be used for creating a *.EXE.<br>
-  Tested on Windows 10.
+  Tested on Windows 10. Nevertheless, in case you experience any problems,<br>
+  you can try "Auto PY to EXE" as well.
 </p>
 
 <h3>Features</h3>
