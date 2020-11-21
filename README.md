@@ -99,7 +99,7 @@
 
 <h3>How to use ...</h3>
 <p>
-  <i>Just download the *.PY file, install packages (see above) if needed and copy any mailpass<br>
+  <i>Just download / clone the files, install packages (see above) if needed and copy any mailpass<br>
     combolist to the same directory. Then type:</i>
 </p>
 <p>
