@@ -29,7 +29,7 @@
     <li>macOS.</li>
   </ul>
 </p>
-<p><b>Used modules are:</b></p>
+<p><b>Used packages are:</b></p>
 <p>
   <ul>
     <li>ctypes,</li>
@@ -94,13 +94,24 @@
 </p>
 <p>
   <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and<br>
-    "proxy" version (in development, released in v1.00!</i>
+    "proxy" version (finished, released in v1.00)!</i>
 </p>
 
 <h3>How to use ...</h3>
 <p>
-  <i>Just download the *.PY file, install modules (see above) if needed and copy any maillpass<br>
+  <i>Just download the *.PY file, install packages (see above) if needed and copy any mailpass<br>
     combolist to the same directory. Then type:</i>
+</p>
+<p>
+  <b>1. Install packages:</b>
+</p>
+
+```
+pip3 install ctypes [...]
+```
+
+<p>
+  <b>2. Start Mail.Rip v1:</b>
 </p>
 
 ```
@@ -108,18 +119,18 @@ python3 mailripV1.py
 ```
 
 <p>
-  <i>... and follow the text on your screen. Of course, you may rename the file for easier usage.</i>
+  <i>... then follow the text on your screen. Of course, you may rename the file for easier usage.<br>
+  Moreover, you can modify the config.json for your needs. Just add or delete entries to / from the lists<br>
+  or dictionaries.</i>
 </p>
 
 <h3>Support Mail.Rip v1</h3>
 <p>
-  <i>If you want to support this project, consider a donation in Bitcoin (BTC).<br>
-    Every donation is appreciated and helps with motivation for working on this tools.<br>
-    Special donators may be named on starting sceen of Mail.Rip v1!<br>
-    In this case, contact me before donating, please!</i>
+  <i>If you want to support this project, consider a donation!<br>
+    Every donation is appreciated and helps with motivation for working on this tools.</i>
 </p>
 <p>
-  <b>Donation Wallet:</b>   1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf
+  <b>Donation Wallet (BTC):</b>   1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf
 </p>
 
 <h4>Changelog</h4>
