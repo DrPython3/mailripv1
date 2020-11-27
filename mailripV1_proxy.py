@@ -168,7 +168,7 @@ def finder(unkdom):
         fproxyport = int(rawproxy.split(":")[1])
         if sockstype == int(4):
             socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
-        else:
+        elif sockstype == int(5):
             socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
         socks.wrapmodule(smtplib)
     else: pass
@@ -213,7 +213,7 @@ def attacker(attackhost, attackport, attackuser, attackpass):
         fproxyport = int(rawproxy.split(":")[1])
         if sockstype == int(4):
             socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
-        else:
+        elif sockstype == int(5):
             socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
         socks.wrapmodule(smtplib)
     else: pass
@@ -292,7 +292,7 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
         if usesocks == 1:
             if sockstype == int(4):
                 socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, str(proxy), int(proxyport))
-            else:
+            elif sockstype == int(5):
                 socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, str(proxy), int(proxyport))
             socks.wrapmodule(smtplib)
         else: pass
@@ -552,7 +552,7 @@ else:
 if usesocks == 1:
     print(Fore.LIGHTRED_EX + Style.BRIGHT + '\nWARNING: SOCKS-proxies activated! Bad combos may be false negatives! ...\n')
 else:
-    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nSOCKS-proxies not acticated ...')
+    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nSOCKS-proxies not activated ...')
 if usesocks == 1:
     try:
         sockstype = int(input(Fore.LIGHTWHITE_EX + 'Which kind of SOCKS do you want to use (4 = SOCKS4, 5 = SOCKS5) :    '))
@@ -561,8 +561,8 @@ if usesocks == 1:
         elif sockstype == int(5):
             print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS5 proxies ...\n')
     except:
-        sockstype = int(5)
-        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS5 proxies ...\n')
+        sockstype = int(4)
+        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS4 proxies ...\n')
 else: pass
 
 #ask to start checking:
