@@ -132,10 +132,9 @@ def blackcheck(search):
 def getproxdata():
     if sockstype == int(5):
         print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies - this may take a while ...\n')
-        psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks5&timeout=1000'
-    else:
+    elif sockstype == int(4):
         print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS4 proxies - this may take a while ...\n')
-        psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks4&timeout=1000'
+    psource = str('https://api.proxyscrape.com?request=displayproxies&proxytype=socks') + str(sockstype) + str('&timeout=1000')
     http = urllib3.PoolManager(ca_certs=certifi.where())
     proxydata = http.request('GET', psource)
     with open('proxydata.txt', 'a') as proxyfile:
@@ -559,7 +558,7 @@ if usesocks == 1:
         sockstype = int(input(Fore.LIGHTWHITE_EX + 'Which kind of SOCKS do you want to use (4 = SOCKS4, 5 = SOCKS5) :    '))
         if sockstype == int(4):
             print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS4 proxies ...\n')
-        else:
+        elif sockstype == int(5):
             print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS5 proxies ...\n')
     except:
         sockstype = int(5)
