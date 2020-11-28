@@ -82,6 +82,7 @@
     "tiscali.cz":"smtp.tiscali.cz",
     "tiscali.it":"smtp.tiscali.it",
     "tiscali.net":"smtp.tiscalinet.de",
+    "tiscali.co.uk":"smtp.tiscali.co.uk",
     "uni.de":"easy.uni.de",
     "unitybox.de":"smtp.unitybox.de",
     "versanet.de":"smtp.versatel.de",
@@ -99,7 +100,9 @@
     "yandex.ru":"smtp.yandex.com",
     "seznam.cz":"smtp.seznam.cz",
     "club-internet.fr":"smtp.club-internet.fr",
-    "web.de":"smtp.web.de"
+    "web.de":"smtp.web.de",
+    "outlook.de":"smtp.office365.com",
+    "office365.com":"smtp.office365.com"
   },
   "hosterports": {
     "smtp.1und1.de":587,
@@ -148,10 +151,23 @@
     "smtp-1.ewetel.net":25,
     "smtp.lycos.de":25,
     "smtp.tiscalinet.de":25,
+    "smtp.tiscali.co.uk":587,
     "smtp.email.vodafone.de":25,
-    "smtp.web.de":25,
+    "smtp.web.de":587,
     "smtp.mail.att.net":465,
-    "smtp.mail.lycos.com":25
+    "smtp.mail.lycos.com":25,
+    "smtp.office365.com":587,
+    "smtp.vodafonemail.de":587,
+    "smtpauths.bluewin.ch":465,
+    "mail.eclipso.de":465,
+    "firemail.de":587,
+    "smtp.mail.me.com":587,
+    "smtp.mailbox.org":465,
+    "smtp.mail.de":587,
+    "smtp.yandex.com":465,
+    "smtp.ewe.net":587,
+    "mail.unity-mail.de":587,
+    "smtp.kabelmail.de":465
   },
   "subh": [
     "",
@@ -172,14 +188,14 @@
     "securesmtp.",
     "smtp2.",
     "send.",
-    "out."
+    "out.",
+    "outgoing."
   ],
   "subp": [
     587,
     465,
     25,
-    26,
-    2525
+    26
   ],
   "blacklisted": [
     "gmail.com",
@@ -189,6 +205,7 @@
     "yahoo.co.uk",
     "yahoo.co.jp",
     "hotmail.com",
+    "hotmail.co.uk",
     "protonmail.com",
     "yandex.ru",
     "me.com"
