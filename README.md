@@ -135,5 +135,6 @@ python3 mailripV1.py
   <i>2020-11-15: releasing code version 0.9, big update (see comment on commit of *.py-file).</i><br>
   <i>2020-11-20: releasing code version 0.92, see commit comment for further information.</i><br>
   <i><b>2020-11-21: releasing code version 1.00 - now available for "proxyless" and "proxy" version!</b></i><br>
-  <i>2020-11-27: releasing code version 1.07 for proxy-version, now supporting SOCKS4 and SOCKS5 proxies.</i>
+  <i>2020-11-27: releasing code version 1.07 for proxy-version, now supporting SOCKS4 and SOCKS5 proxies.</i><br>
+  <i>2020-11-28: releasing code version 1.08 for proxy-version with minor tweaks and little improvements.</i>
 </p>
