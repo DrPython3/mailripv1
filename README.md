@@ -11,10 +11,10 @@
 
 <h2>Overview</h2>
 <p>
-  <i>Mail.Rip v1 is written in Python 3.8 and still being improved though it is already functional,<br>
-    delivering results very fast. The goal of this project is to offer a tool which is easy to use,<br>
-    providing stable results over time.<br><br>
-    There is still work to be done, but Mail.Rip v1 is worth testing it.</i>
+  <i>Mail.Rip v1 is a SMTP checker / SMTP cracker written in Python 3.8 using mailpass combolists.<br>
+  It looks up the SMTP host for every combo and tries to verify the login data. For valid SMTP logins,<br>
+  Mail.Rip will also try to send an e-mail to your address containing all the credentials. That way, it<br>
+  performs an inbox test as well. It is fast and easy to use!</i>
 </p>
 
 <h3>Requirements</h3>
@@ -26,7 +26,7 @@
   <ul>
     <li>Windows 10,</li>
     <li>KALI Linux and</li>
-    <li>macOS.</li>
+    <li>macOS Catalina.</li>
   </ul>
 </p>
 <p><b>Used packages are:</b></p>
@@ -59,27 +59,21 @@
 
 <h3>Features</h3>
 <p>
-  <i>Mail.Rip is a basic SMTP checker / SMTP cracker. There are the following essential<br>
-  "features":</i>
-</p>
-<p>
   <ul>
     <li>Tests mailpass combolists for working SMTP logins,</li>
-    <li>hostdata for common SMTP providers is included,</li>
+    <li>hostdata for common SMTP providers is included and can be edited,</li>
     <li>checks for most common SMTP (sub)domains if no host is found in included lists,</li>
     <li>tries to verify working SMTP logins by sending an e-mail to the user's address,</li>
     <li>supports multi-threading,</li>
     <li>stats are shown in window title,</li>
     <li>option to skip e-mail providers like Google, hotmail.com etc.,</li>
+    <li>e-mail provider blacklist can be edited, too,</li>
     <li>results are saved to textfiles for further investigation and</li>
     <li>SOCKS4- and SOCKS5-support with auto-scraping using Proxyscrape.com.</li>
   </ul>
 </p>
 
 <h4>Upcoming Features</h4>
-<p>
-  <i>There is still some work left to be done. Planned improvements are:</i>
-</p>
 <p>
   <ul>
     <li><del>Add SMTP ports to connection,</del> - <b>done, 2020-11-13</b></li>
@@ -94,14 +88,14 @@
   </ul>
 </p>
 <p>
-  <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and<br>
-    "proxy" version (finished, released in v1.00)!</i>
+  <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and "proxy" version!<br>
+    <strong>The proxy-version is still being improved because it can be used without proxys, too.</strong></i>
 </p>
 
 <h3>How to use ...</h3>
 <p>
-  <i>Just download / clone the files, install packages (see above) if needed and copy any mailpass<br>
-    combolist to the same directory. Then type:</i>
+  <i>Just download / clone the files, install packages if needed and copy any mailpass combolist<br>
+    to the same directory and load the script:</i>
 </p>
 <p>
   <b>1. Install packages:</b>
@@ -120,7 +114,7 @@ python3 mailripV1.py
 ```
 
 <p>
-  <i>... then follow the text on your screen. Of course, you may rename the file for easier usage.<br>
+  <i>... just follow the text on your screen. Of course, you may rename the file for easier usage.<br>
   Moreover, you can modify the config.json for your needs. Just add or delete entries to / from the lists<br>
   or dictionaries.</i>
 </p>
