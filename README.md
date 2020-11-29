@@ -72,24 +72,9 @@
     <li>SOCKS4- and SOCKS5-support with auto-scraping using Proxyscrape.com.</li>
   </ul>
 </p>
-
-<h4>Upcoming Features</h4>
-<p>
-  <ul>
-    <li><del>Add SMTP ports to connection,</del> - <b>done, 2020-11-13</b></li>
-    <li><del>improve SSL support for better results,</del> - <b>done, 2020-11-13</b></li>
-    <li><del>add msg send to checking process (validation of cracked SMTP, inbox check)</del> - <b>done, 2020-11-15</b></li>
-    <li><del><b>improve subdomain checking for unknown mailhosts,</b></del> - <b>done, 2020-11-13</b></li>
-    <li><del>add a config.json to provide easier access to dictionaries and lists used by the checker</del> - <b>done, 2020-11-15</b><br>
-      (request by <a href="https://github.com/Trustdee" target=_blank>Trustdee</a>),</li>
-    <li><del><b>add support for SOCKS-proxys,</b></del> - <b>done, 2020-11-21</b></li>
-    <li>speed up checking process / improve performance and</li>
-    <li>some other stuff ...</li>
-  </ul>
-</p>
 <p>
   <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and "proxy" version!<br>
-    <strong>The proxy-version is still being improved because it can be used without proxys, too.</strong></i>
+    <strong>The proxy-version is still being improved and can be used without proxys, too.</strong></i>
 </p>
 
 <h3>How to use ...</h3>
@@ -110,7 +95,7 @@ pip3 install certifi [...]
 </p>
 
 ```
-python3 mailripV1.py
+python3 mailripV1_proxy.py
 ```
 
 <p>
@@ -128,7 +113,7 @@ python3 mailripV1.py
   <b>Donation Wallet (BTC):</b>   1M8PrpZ3VFHuGrnYJk63MtoEmoJxwiUxYf
 </p>
 
-<h4>Changelog</h4>
+<h3>Changelog</h3>
 <p>
   <i>2020-10-18: releasing code version 0.3, creating repo, writing readme etc.</i><br>
   <i>2020-11-13: releasing code version 0.5, many improvements (see comment on commit of *.py-file).</i><br>
