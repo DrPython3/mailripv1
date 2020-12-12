@@ -43,7 +43,7 @@
     <li>colorama,</li>
     <li>json,</li>
     <li>re,</li>
-    <li>email.mime,</li>
+    <li>email.message,</li>
     <li>uuid,</li>
     <li>socks,</li>
     <li>random,</li>
@@ -104,6 +104,16 @@ python3 mailripV1_proxy.py
   or dictionaries.</i>
 </p>
 
+<h4>WARNING "Proxy Usage":</h4>
+
+<p>
+  Please be aware of using free SOCKS-proxies may have a great impact on your results. Mail.Rip v1 scrapes free proxies<br>
+  which may have already been used by others or may be blacklisted. Therefor, your results may contain more false negatives<br>
+  and you may receive even more errors from the mailsending feature.<br>
+  <br>
+  Used proxyless, Mail.Rip v1 works much faster and more reliable!
+</p>
+
 <h3>Support Mail.Rip v1</h3>
 <p>
   <i>If you want to support this project, consider a donation!<br>
@@ -121,5 +131,6 @@ python3 mailripV1_proxy.py
   <i>2020-11-20: releasing code version 0.92, see commit comment for further information.</i><br>
   <i><b>2020-11-21: releasing code version 1.00 - now available for "proxyless" and "proxy" version!</b></i><br>
   <i>2020-11-27: releasing code version 1.07 for proxy-version, now supporting SOCKS4 and SOCKS5 proxies.</i><br>
-  <i>2020-11-28: releasing code version 1.08 for proxy-version with minor tweaks and little improvements.</i>
+  <i>2020-11-28: releasing code version 1.08 for proxy-version with minor tweaks and little improvements.</i><br>
+  <i>2020-12-12: releasing code version 1.10 for proxy-version: see commit changes for detaiils!</i>
 </p>
