@@ -102,7 +102,18 @@
     "club-internet.fr":"smtp.club-internet.fr",
     "web.de":"smtp.web.de",
     "outlook.de":"smtp.office365.com",
-    "office365.com":"smtp.office365.com"
+    "office365.com":"smtp.office365.com",
+    "yeah.net":"smtp.yeah.net",
+    "hawaiiantel.net":"smtp.hawaiiantel.net",
+    "sina.cn":"smtp.sina.cn",
+    "baldwin-telecom.net":"mail.baldwin-telecom.net",
+    "rambler.ru":"mail.rambler.ru",
+    "163.com":"smtp.163.com",
+    "uol.com.br":"smtp.uol.com.br",
+    "mybluelight.com":"smtp.mybluelight.com",
+    "sfr.fr":"mail.sfr.fr",
+    "netzero.net":"smtp.netzero.net",
+    "ziggo.nl":"smtp.ziggo.nl"
   },
   "hosterports": {
     "smtp.1und1.de":587,
@@ -129,15 +140,13 @@
     "smtp.orange.fr":465,
     "smtp.orange.net":25,
     "smtp.wanadoo.co.uk":25,
-    "mail.o2online.de":25,
     "securesmtp.t-online.de":587,
-    "smtp.1and1.com":587,
     "smtp.comcast.net":587,
     "outgoing.verizon.net":465,
     "smtp.mail.com":587,
     "mail.gmx.com":465,
-    "mail.arcor.de":465,
-    "mx.freenet.de":465,
+    "mail.arcor.de":25,
+    "mx.freenet.de":25,
     "smtp.seznam.cz":587,
     "smtp.club-internet.fr":587,
     "smtp.alice-dsl.de":587,
@@ -156,18 +165,30 @@
     "smtp.web.de":587,
     "smtp.mail.att.net":465,
     "smtp.mail.lycos.com":25,
-    "smtp.office365.com":587,
     "smtp.vodafonemail.de":587,
     "smtpauths.bluewin.ch":465,
     "mail.eclipso.de":465,
     "firemail.de":587,
-    "smtp.mail.me.com":587,
     "smtp.mailbox.org":465,
     "smtp.mail.de":587,
     "smtp.yandex.com":465,
     "smtp.ewe.net":587,
     "mail.unity-mail.de":587,
-    "smtp.kabelmail.de":465
+    "smtp.kabelmail.de":465,
+    "smtp.yeah.net":587,
+    "smtp.sina.cn":587,
+    "mail.baldwin-telecom.net":25,
+    "smtp.hawaiiantel.net":587,
+    "mail.rambler.ru":25,
+    "smtp.163.com":587,
+    "smtp.uol.com.br":465,
+    "smtp.mybluelight.com":587,
+    "smtpauth.earthlink.net":587,
+    "mail.sfr.fr":587,
+    "smtp.ziggo.nl":587,
+    "smtp.netzero.net":587,
+    "smtp.mail.ru":587,
+    "out.alice.it":25
   },
   "subh": [
     "",
@@ -195,7 +216,9 @@
     587,
     465,
     25,
-    26
+    26,
+    2525,
+    2626
   ],
   "blacklisted": [
     "gmail.com",
@@ -209,5 +232,15 @@
     "protonmail.com",
     "yandex.ru",
     "me.com"
+  ],
+  "socksfoursources": [
+    "https://www.proxyscan.io/api/proxy?format=txt&type=socks4&limit=20&uptime=50",
+    "https://api.proxyscrape.com?request=displayproxies&proxytype=socks4&timeout=1000",
+    "https://www.proxy-list.download/api/v1/get?type=socks4"
+  ],
+  "socksfivesources": [
+    "https://www.proxyscan.io/api/proxy?format=txt&type=socks5&limit=20&uptime=50",
+    "https://api.proxyscrape.com?request=displayproxies&proxytype=socks5&timeout=1000",
+    "https://www.proxy-list.download/api/v1/get?type=socks5"
   ]
 }
