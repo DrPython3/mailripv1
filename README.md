@@ -107,9 +107,10 @@ python3 mailripV1_proxy.py
 <h4>WARNING "Proxy Usage":</h4>
 
 <p>
-  Please be aware of using free SOCKS-proxies may have a great impact on your results. Mail.Rip v1 scrapes free proxies<br>
-  which may have already been used by others or may be blacklisted. Therefor, your results may contain more false negatives<br>
-  and you may receive even more errors from the mailsending feature.<br>
+  Please be aware of using free SOCKS-proxies may have a great impact on your results.<br>
+  Mail.Rip v1 scrapes free proxies which may have already been used by others or may be<br>
+  blacklisted. Therefor, your results may contain more false negatives and you may<br>
+  receive even more errors from the mailsending feature.<br>
   <br>
   Used proxyless, Mail.Rip v1 works much faster and more reliable!
 </p>
@@ -132,5 +133,5 @@ python3 mailripV1_proxy.py
   <i><b>2020-11-21: releasing code version 1.00 - now available for "proxyless" and "proxy" version!</b></i><br>
   <i>2020-11-27: releasing code version 1.07 for proxy-version, now supporting SOCKS4 and SOCKS5 proxies.</i><br>
   <i>2020-11-28: releasing code version 1.08 for proxy-version with minor tweaks and little improvements.</i><br>
-  <i>2020-12-12: releasing code version 1.10 for proxy-version: see commit changes for detaiils!</i>
+  <i>2020-12-12: releasing code version 1.10 for proxy-version: see commit changes for details!</i>
 </p>
