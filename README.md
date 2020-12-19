@@ -1,6 +1,6 @@
 # Mail.Rip v1
 <p>
-  <i>A SMTP checker / SMTP cracker including a mailsending check for testing mailpass combolists.</i>
+  <i>A SMTP Checker / SMTP Cracker with SOCKS support and e-mail delivery test (inbox check) for mailpass combolists.</i>
 </p>
 
 <h2>Legal Notices</h2>
@@ -11,7 +11,7 @@
 
 <h2>Overview</h2>
 <p>
-  <i>Mail.Rip v1 is a SMTP checker / SMTP cracker written in Python 3.8 using mailpass combolists.<br>
+  <i>Mail.Rip v1 is a SMTP checker / SMTP cracker written in Python 3.8 for mailpass combolists.<br>
   It looks up the SMTP host for every combo and tries to verify the login data. For valid SMTP logins,<br>
   Mail.Rip will also try to send an e-mail to your address containing all the credentials. That way, it<br>
   performs an inbox test as well. It is fast and easy to use!</i>
@@ -74,7 +74,7 @@
 </p>
 <p>
   <i>Note: Mail.Rip is now available as "proxyless" version (finished, released in v1.00) and "proxy" version!<br>
-    <strong>The proxy-version is still being improved and can be used without proxys, too.</strong></i>
+    <strong>The proxy-version can be used without proxys, too.</strong></i>
 </p>
 
 <h3>How to use ...</h3>
@@ -133,5 +133,6 @@ python3 mailripV1_proxy.py
   <i><b>2020-11-21: releasing code version 1.00 - now available for "proxyless" and "proxy" version!</b></i><br>
   <i>2020-11-27: releasing code version 1.07 for proxy-version, now supporting SOCKS4 and SOCKS5 proxies.</i><br>
   <i>2020-11-28: releasing code version 1.08 for proxy-version with minor tweaks and little improvements.</i><br>
-  <i>2020-12-12: releasing code version 1.10 for proxy-version: see commit changes for details!</i>
+  <i>2020-12-12: releasing code version 1.10 for proxy-version: see commit changes for details!</i><br>
+  <i>2020-12-18: releasing code version 1.11 for proxy-version: see commit changes for details!</i>
 </p>
