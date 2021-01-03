@@ -2,6 +2,9 @@
 <p>
   <i>A SMTP Checker / SMTP Cracker with SOCKS support and e-mail delivery test (inbox check) for mailpass combolists.</i>
 </p>
+<p>
+  <b>Mail.Rip v2 has already been released: <a href="https://github.com/DrPython3/MailRipV2">click here!</a> It is faster, more reliable and still easy to use!</b>
+</p>
 
 <h2>Legal Notices</h2>
 <p>
